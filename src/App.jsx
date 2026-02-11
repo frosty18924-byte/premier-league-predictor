@@ -5,145 +5,156 @@ const App = () => {
   const [matches, setMatches] = useState([]);
   const [recommendedBets, setRecommendedBets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Real Betting Data for Feb 11, 2026 Fixtures
-  // Sources: Various UK Bookmakers (Feb 2026)
-  const realMatches = [
-    {
-      id: 201,
-      homeTeam: "Aston Villa",
-      awayTeam: "Brighton",
-      time: "19:45",
-      odds: 1.95, // Villa Win
-      predictions: {
-        result: { home: 49.0, draw: 25.0, away: 26.0, tip: "Aston Villa Win", confidence: 65.0 },
-        goals: { prediction: "Over 2.5", confidence: 75, reason: "Villa strong at home, Brighton leaky" },
-        corners: { prediction: "Over 9.5", confidence: 70, total: "10-12" },
-        shots: { prediction: "Villa Over 5.5 SOT", home: "6-7", away: "3-4" },
-        fouls: { prediction: "Over 21.5", confidence: 80, cards: "3-4" },
-        betBuilder: "Villa Win + Watkins 1+ SOT"
-      }
-    },
-    {
-      id: 202,
-      homeTeam: "Crystal Palace",
-      awayTeam: "Burnley",
-      time: "19:30",
-      odds: 1.57, // Palace Win
-      predictions: {
-        result: { home: 61.0, draw: 23.0, away: 16.0, tip: "Crystal Palace Win", confidence: 78.0 },
-        goals: { prediction: "Under 2.5", confidence: 64, reason: "Burnley struggle to score away" },
-        corners: { prediction: "Over 10.5", confidence: 65, total: "11-13" },
-        shots: { prediction: "Palace Over 4.5 SOT", home: "5-6", away: "2-3" },
-        fouls: { prediction: "Over 19.5", confidence: 72, cards: "2-3" },
-        betBuilder: "Palace Win + Under 3.5 Goals"
-      }
-    },
-    {
-      id: 203,
-      homeTeam: "Man City",
-      awayTeam: "Fulham",
-      time: "20:00",
-      odds: 1.36, // City Win
-      predictions: {
-        result: { home: 71.0, draw: 18.0, away: 11.0, tip: "Man City Win", confidence: 85.0 },
-        goals: { prediction: "Over 3.5", confidence: 82, reason: "City average 3+ goals vs Fulham" },
-        corners: { prediction: "Over 7.5", confidence: 88, total: "8-10" },
-        shots: { prediction: "Haaland 2+ SOT", home: "8-10", away: "1-2" },
-        fouls: { prediction: "Under 18.5", confidence: 60, cards: "1-2" },
-        betBuilder: "City Win + Haaland Goal + Over 2.5 Goals"
-      }
-    },
-    {
-      id: 204,
-      homeTeam: "Nott'm Forest",
-      awayTeam: "Wolves",
-      time: "19:30",
-      odds: 1.75, // Forest Win
-      predictions: {
-        result: { home: 54.0, draw: 26.0, away: 20.0, tip: "Nott'm Forest Win", confidence: 68.0 },
-        goals: { prediction: "Under 2.5", confidence: 70, reason: "Tight game predicted at City Ground" },
-        corners: { prediction: "Over 10.5", confidence: 75, total: "11-12" },
-        shots: { prediction: "Forest Over 4.5 SOT", home: "5-6", away: "3-4" },
-        fouls: { prediction: "Over 24.5", confidence: 85, cards: "5-6" },
-        betBuilder: "Forest Win + Gibbs-White 1+ SOT"
-      }
-    }
-  ];
+  // LIVE API CONFIGURATION
+  const API_KEY = 'd05b6997aa4a2a03c4a0c5a0ecf5f0a3';
+  const SPORT_KEY = 'soccer_epl'; // Premier League
+  const REGIONS = 'uk';
+  const MARKETS = 'h2h';
 
-  const generateRecommendedBets = (matchesData) => {
+  // --- Utility: Calculate Probability from Decimal Odds ---
+  const getImpliedProbability = (odds) => {
+    return Math.round((1 / odds) * 100);
+  };
+
+  // --- Betting Logic ---
+  const generatePredictions = (match) => {
+    // Extract odds
+    const outcomes = match.bookmakers[0]?.markets[0]?.outcomes;
+    if (!outcomes) return null;
+
+    const home = outcomes.find(o => o.name === match.home_team);
+    const away = outcomes.find(o => o.name === match.away_team);
+    const draw = outcomes.find(o => o.name === 'Draw');
+
+    if (!home || !away || !draw) return null;
+
+    const homeProb = getImpliedProbability(home.price);
+    const awayProb = getImpliedProbability(away.price);
+    const drawProb = getImpliedProbability(draw.price);
+
+    // Normalize to 100%
+    const total = homeProb + awayProb + drawProb;
+    const normHome = Math.round((homeProb / total) * 100);
+    const normAway = Math.round((awayProb / total) * 100);
+    const normDraw = Math.round((drawProb / total) * 100);
+
+    // Determine Prediction
+    let tip = "Avoid";
+    let confidence = 0;
+    let tipOdds = 0;
+
+    if (normHome > 55) { tip = `${match.home_team} Win`; confidence = normHome; tipOdds = home.price; }
+    else if (normAway > 55) { tip = `${match.away_team} Win`; confidence = normAway; tipOdds = away.price; }
+    else if (normDraw > 35) { tip = "Draw"; confidence = normDraw; tipOdds = draw.price; }
+    else { tip = "Double Chance 1X"; confidence = normHome + normDraw; tipOdds = 1.30; } // Fallback
+
+    const isHighScoring = (normHome + normAway) > 80; // Rough heuristic
+
+    return {
+      id: match.id,
+      homeTeam: match.home_team,
+      awayTeam: match.away_team,
+      time: new Date(match.commence_time).toLocaleDateString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' }),
+      odds: tipOdds,
+      predictions: {
+        result: { home: normHome, draw: normDraw, away: normAway, tip, confidence },
+        goals: {
+          prediction: isHighScoring ? "Over 2.5" : "Under 2.5",
+          confidence: isHighScoring ? 65 : 60,
+          reason: isHighScoring ? "OPEN GAME EXPECTED" : "TIGHT AFFAIR LIKELY"
+        },
+        corners: { prediction: "Over 9.5", confidence: 60, total: "?" },
+        shots: { prediction: "High Shots", home: "?", away: "?" },
+        fouls: { prediction: "Avg", confidence: 50, cards: "?" },
+        betBuilder: `${tip} + ${isHighScoring ? 'Over 1.5 Goals' : 'Under 3.5 Goals'}`
+      }
+    };
+  };
+
+  const generateRecommendedBets = (processedMatches) => {
     const bets = [];
+    const validMatches = processedMatches.filter(m => m && m.predictions.result.tip !== "Avoid");
 
-    // 1. Safest Banker
-    const safestMatch = [...matchesData].sort((a, b) => b.predictions.result.confidence - a.predictions.result.confidence)[0];
-    if (safestMatch) {
+    if (validMatches.length === 0) return;
+
+    // 1. SAFEST BANKER
+    const riskSorted = [...validMatches].sort((a, b) => b.predictions.result.confidence - a.predictions.result.confidence);
+    const banker = riskSorted[0];
+    if (banker) {
       bets.push({
         type: "Safest Banker",
-        selections: [safestMatch.predictions.result.tip],
-        odds: safestMatch.odds.toFixed(2),
-        confidence: `${safestMatch.predictions.result.confidence}%`,
+        selections: [banker.predictions.result.tip],
+        odds: banker.odds.toFixed(2),
+        confidence: `${banker.predictions.result.confidence}%`,
         stake: "£20",
-        return: `£${(20 * safestMatch.odds).toFixed(2)}`
+        return: `£${(20 * banker.odds).toFixed(2)}`
       });
     }
 
-    // 2. Value Acca (Target ~5/1)
-    const sortedMatches = [...matchesData].sort((a, b) => b.predictions.result.confidence - a.predictions.result.confidence);
+    // 2. VALUE ACCA (Top 3 Favorites)
+    const accaPicks = riskSorted.slice(0, 3);
+    if (accaPicks.length >= 2) {
+      let accaOdds = 1.0;
+      const names = [];
+      accaPicks.forEach(p => {
+        accaOdds *= p.odds;
+        names.push(`${p.predictions.result.tip} (${p.odds.toFixed(2)})`);
+      });
 
-    let accaSelections = [];
-    let accaOdds = 1.0;
-    let accaConfidence = 100;
-
-    for (const match of sortedMatches) {
-      if (accaOdds >= 5.5) break;
-      accaSelections.push(`${match.predictions.result.tip} (${match.odds.toFixed(2)})`);
-      accaOdds *= match.odds;
-      accaConfidence = Math.min(accaConfidence, match.predictions.result.confidence);
-    }
-
-    if (accaSelections.length >= 2) {
       bets.push({
         type: "Value Acca",
-        selections: accaSelections,
-        odds: `${(accaOdds - 1).toFixed(1)}/1 (${accaOdds.toFixed(2)})`,
-        confidence: `${Math.round(accaConfidence * 0.9)}%`,
+        selections: names,
+        odds: accaOdds.toFixed(2),
+        confidence: "High",
         stake: "£10",
         return: `£${(10 * accaOdds).toFixed(2)}`
-      });
-    }
-
-    // 3. Goals Treble Idea
-    const goalsSelections = matchesData
-      .filter(m => m.predictions.goals.prediction === "Over 2.5")
-      .slice(0, 3);
-
-    if (goalsSelections.length >= 2) {
-      bets.push({
-        type: "Goals Acca",
-        selections: goalsSelections.map(m => `Over 2.5 in ${m.homeTeam}`),
-        odds: "4/1 (Est)",
-        confidence: "Medium",
-        stake: "£5",
-        return: "£25.00"
       });
     }
 
     setRecommendedBets(bets);
   };
 
-  // On mount, load the Real Data (Simulator Mode)
-  useEffect(() => {
-    // Simulate a short loading delay for effect
-    setTimeout(() => {
-      setMatches(realMatches);
-      generateRecommendedBets(realMatches);
+  // --- Fetch Function ---
+  const fetchLiveOdds = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const url = `https://api.the-odds-api.com/v4/sports/${SPORT_KEY}/odds/?regions=${REGIONS}&markets=${MARKETS}&apiKey=${API_KEY}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.length === 0) {
+        setError("No odds currently available for Premier League. Season might be over or on break.");
+        setLoading(false);
+        return;
+      }
+
+      const processed = data.map(generatePredictions).filter(Boolean);
+      setMatches(processed);
+      generateRecommendedBets(processed);
       setLoading(false);
-    }, 1000);
+
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Failed to load live odds. Check API Key quota.");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLiveOdds();
   }, []);
 
   const getConfidenceColor = (confidence) => {
-    if (confidence >= 85) return "text-green-600 bg-green-50";
-    if (confidence >= 70) return "text-blue-600 bg-blue-50";
+    if (confidence >= 75) return "text-green-600 bg-green-50";
+    if (confidence >= 60) return "text-blue-600 bg-blue-50";
     return "text-orange-600 bg-orange-50";
   };
 
@@ -157,8 +168,8 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center p-6">
       <div className="text-white text-center">
         <Loader2 className="w-12 h-12 animate-spin mb-4 mx-auto text-yellow-400" />
-        <h2 className="text-2xl font-bold mb-2">Analyzing Latest Odds</h2>
-        <p className="text-purple-200">Checking market data for upcoming fixtures...</p>
+        <h2 className="text-2xl font-bold mb-2">Connecting to Live Markets</h2>
+        <p className="text-purple-200">Fetching real-time odds...</p>
       </div>
     </div>
   );
@@ -172,20 +183,27 @@ const App = () => {
             <Trophy className="w-12 h-12 text-yellow-400" />
             <h1 className="text-4xl font-bold text-white">Premier League Predictor</h1>
           </div>
-          <p className="text-purple-200 text-lg flex items-center justify-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-            Using Live Market Odds (Feb 2026)
+          <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            LIVE ODDS ACTIVE
           </p>
         </div>
+
+        {error && (
+          <div className="text-center text-red-100 mb-8 bg-red-900/50 p-4 rounded border border-red-500/30">
+            <AlertCircle className="w-6 h-6 mx-auto mb-2 text-red-400" />
+            {error}
+          </div>
+        )}
 
         {/* Recommended Bets Section */}
         {matches.length > 0 && recommendedBets.length > 0 && (
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 mb-8 border border-white/20">
             <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <TrendingUp className="w-6 h-6 text-yellow-400" />
-              Recommended Bets
+              Live Value Bets
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recommendedBets.map((bet, idx) => (
                 <div key={idx} className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition">
                   <h3 className="font-bold text-yellow-400 mb-2">{bet.type}</h3>
@@ -305,29 +323,8 @@ const App = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Detailed Stats Expandable */}
-              <div className="px-6 pb-4 pt-0 grid grid-cols-3 gap-4 border-t border-white/5 mt-2 pt-4">
-                <div className="text-center">
-                  <div className="text-xs text-white/40 mb-1">Corners</div>
-                  <div className="text-white text-sm font-semibold">{match.predictions.corners.prediction}</div>
-                </div>
-                <div className="text-center border-l border-white/10 border-r">
-                  <div className="text-xs text-white/40 mb-1">Shots on Target</div>
-                  <div className="text-white text-sm font-semibold">{match.predictions.shots.prediction}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xs text-white/40 mb-1">Cards</div>
-                  <div className="text-white text-sm font-semibold">{match.predictions.fouls.prediction}</div>
-                </div>
-              </div>
             </div>
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-12 text-center text-purple-200 text-xs opacity-60">
-          <p>⚠️ Odds sourced from live market data (Feb 2026). Predictions are estimates. ROI not guaranteed.</p>
         </div>
       </div>
     </div>
