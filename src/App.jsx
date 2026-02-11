@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle } from 'lucide-react';
+import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle, Calendar, ChevronRight } from 'lucide-react';
 
 const App = () => {
   const [matches, setMatches] = useState([]);
   const [recommendedBets, setRecommendedBets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterMode, setFilterMode] = useState('this_week'); // 'this_week' | 'next_week'
 
   // LIVE API CONFIGURATION
   const API_KEY = 'd05b6997aa4a2a03c4a0c5a0ecf5f0a3';
@@ -16,6 +17,25 @@ const App = () => {
   // --- Utility: Calculate Probability from Decimal Odds ---
   const getImpliedProbability = (odds) => {
     return Math.round((1 / odds) * 100);
+  };
+
+  const isDateInThisWeek = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    // Reset time part for accurate date comparison if needed, but simple comparison is okay
+    const nextWeek = new Date();
+    nextWeek.setDate(now.getDate() + 7);
+    return date >= now && date < nextWeek;
+  };
+
+  const isDateInNextWeek = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const startOfNext = new Date();
+    startOfNext.setDate(now.getDate() + 7);
+    const endOfNext = new Date();
+    endOfNext.setDate(now.getDate() + 14);
+    return date >= startOfNext && date < endOfNext;
   };
 
   // --- Betting Logic ---
@@ -56,7 +76,8 @@ const App = () => {
       id: match.id,
       homeTeam: match.home_team,
       awayTeam: match.away_team,
-      time: new Date(match.commence_time).toLocaleDateString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' }),
+      rawDate: match.commence_time,
+      time: new Date(match.commence_time).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
       odds: tipOdds,
       predictions: {
         result: { home: normHome, draw: normDraw, away: normAway, tip, confidence },
@@ -164,6 +185,12 @@ const App = () => {
     return "bg-gray-400";
   };
 
+  const displayedMatches = matches.filter(match => {
+    if (filterMode === 'this_week') return isDateInThisWeek(match.rawDate);
+    if (filterMode === 'next_week') return isDateInNextWeek(match.rawDate);
+    return true;
+  });
+
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center p-6">
       <div className="text-white text-center">
@@ -183,10 +210,28 @@ const App = () => {
             <Trophy className="w-12 h-12 text-yellow-400" />
             <h1 className="text-4xl font-bold text-white">Premier League Predictor</h1>
           </div>
-          <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold">
+          <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-6">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             LIVE ODDS ACTIVE
           </p>
+
+          {/* Date Filter Toggles */}
+          <div className="inline-flex bg-white/10 p-1 rounded-lg backdrop-blur-sm border border-white/20">
+            <button
+              onClick={() => setFilterMode('this_week')}
+              className={`px-4 py-2 rounded-md text-sm font-bold transition flex items-center gap-2 ${filterMode === 'this_week' ? 'bg-yellow-400 text-purple-900 shadow-lg' : 'text-white hover:bg-white/10'}`}
+            >
+              <Calendar className="w-4 h-4" />
+              This Week
+            </button>
+            <button
+              onClick={() => setFilterMode('next_week')}
+              className={`px-4 py-2 rounded-md text-sm font-bold transition flex items-center gap-2 ${filterMode === 'next_week' ? 'bg-yellow-400 text-purple-900 shadow-lg' : 'text-white hover:bg-white/10'}`}
+            >
+              Next Week
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -197,11 +242,11 @@ const App = () => {
         )}
 
         {/* Recommended Bets Section */}
-        {matches.length > 0 && recommendedBets.length > 0 && (
+        {matches.length > 0 && recommendedBets.length > 0 && filterMode === 'this_week' && (
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 mb-8 border border-white/20">
             <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <TrendingUp className="w-6 h-6 text-yellow-400" />
-              Live Value Bets
+              Live Value Bets (This Week)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recommendedBets.map((bet, idx) => (
@@ -234,7 +279,15 @@ const App = () => {
 
         {/* Matches Grid */}
         <div className="grid grid-cols-1 gap-6">
-          {matches.map((match) => (
+          {displayedMatches.length === 0 && !loading && (
+            <div className="text-center text-white/50 py-12 bg-white/5 rounded-xl border border-dashed border-white/10">
+              <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p className="text-lg">No matches found for {filterMode === 'this_week' ? 'this week' : 'next week'}.</p>
+              <p className="text-sm mt-2">Check back later for updated fixtures.</p>
+            </div>
+          )}
+
+          {displayedMatches.map((match) => (
             <div key={match.id} className="bg-white/10 backdrop-blur-lg rounded-xl overflow-hidden border border-white/20 hover:border-white/40 transition shadow-xl">
               {/* Match Header */}
               <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
