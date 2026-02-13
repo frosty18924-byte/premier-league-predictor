@@ -99,14 +99,11 @@ const App = () => {
           };
         };
 
-        const b365 = getBookieOdds('bet365');
         const bfair = getBookieOdds(['betfair_sb_uk', 'betfair_ex_uk', 'betfair']);
-
-        // Find best alternative if Bet365 is missing
-        const alternative = getBookieOdds(['skybet', 'williamhill', 'paddypower', 'unibet_uk']);
+        const anyBookie = getBookieOdds(['pinnacle', 'skybet', 'williamhill', 'neds', 'unibet_uk']);
 
         // Main bookie for the primary display
-        const primaryBookie = b365 || bfair || alternative || (match.bookmakers[0] ? {
+        const primaryBookie = bfair || anyBookie || (match.bookmakers[0] ? {
           title: match.bookmakers[0].title,
           home: match.bookmakers[0].markets[0]?.outcomes.find(o => o.name === match.home_team)?.price,
           away: match.bookmakers[0].markets[0]?.outcomes.find(o => o.name === match.away_team)?.price,
@@ -192,9 +189,8 @@ const App = () => {
           odds: parseFloat(tipOdd).toFixed(2),
           bookmaker: primaryBookie.title,
           comparison: {
-            bet365: b365,
             betfair: bfair,
-            alternative: alternative,
+            any: anyBookie,
             bestOdds: {
               home: top3Home,
               draw: top3Draw,
@@ -441,15 +437,13 @@ const App = () => {
                       </thead>
                       <tbody className="text-sm">
                         {[
-                          { id: 'bet365', name: 'Bet365', data: match.comparison.bet365 },
                           { id: 'betfair', name: 'Betfair', data: match.comparison.betfair },
-                          match.comparison.alternative && match.comparison.alternative.key !== 'bet365' && !['betfair_sb_uk', 'betfair_ex_uk', 'betfair'].includes(match.comparison.alternative.key) ?
-                            { id: 'alt', name: match.comparison.alternative.title, data: match.comparison.alternative } : null
+                          match.comparison.any && !['betfair_sb_uk', 'betfair_ex_uk', 'betfair'].includes(match.comparison.any.key) ?
+                            { id: 'alt', name: match.comparison.any.title, data: match.comparison.any } : null
                         ].filter(Boolean).map((bookie, idx, all) => (
                           <tr key={idx} className="border-b border-white/5">
                             <td className="py-3 font-bold text-white">
                               {bookie.name}
-                              {bookie.id === 'bet365' && !bookie.data && <span className="ml-2 text-[8px] opacity-40 uppercase">(N/A)</span>}
                             </td>
                             {[
                               { key: 'home', val: bookie.data?.home },
