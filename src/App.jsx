@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle, Calendar, ChevronRight, Calculator } from 'lucide-react';
+import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle, Calendar, ChevronRight, Calculator, Database } from 'lucide-react';
+import statsService from './services/statsService';
 
 const App = () => {
   const [matches, setMatches] = useState([]);
   const [recommendedBets, setRecommendedBets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [dataSource, setDataSource] = useState('loading');
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   // THE ODDS API CONFIGURATION
   const API_KEY = 'c58f0ea18c296b5e55916445cba66cc6';
@@ -24,38 +27,65 @@ const App = () => {
     };
   };
 
-  const simulateStats = (prob, teamName) => {
-    // Heuristic: Higher win prob = more attacking stats
-    const isFavorite = prob > 55;
-    const isHeavyFavorite = prob > 70;
+  const simulateStats = (homeProb, awayProb, homeTeam, awayTeam) => {
+    // Determine which team is stronger based on win probability
+    const homeFavored = homeProb > awayProb;
+    const probDiff = Math.abs(homeProb - awayProb);
+
+    // Strong favorite if probability difference is > 25%
+    const isStrongFavorite = probDiff > 25;
+    const isModFavorite = probDiff > 15;
 
     // Random variance to make it look natural
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
     let hShots, aShots, hCorners, aCorners;
 
-    if (isFavorite) {
-      hShots = rand(14, 22);
-      aShots = rand(6, 12);
-      hCorners = rand(6, 12);
-      aCorners = rand(2, 5);
+    if (isStrongFavorite) {
+      // Clear favorite: Dominant team gets significantly more shots
+      if (homeFavored) {
+        hShots = rand(14, 20);
+        aShots = rand(5, 9);
+        hCorners = rand(6, 10);
+        aCorners = rand(2, 4);
+      } else {
+        // Away team is strong favorite (rare but happens)
+        hShots = rand(5, 9);
+        aShots = rand(14, 20);
+        hCorners = rand(2, 4);
+        aCorners = rand(6, 10);
+      }
+    } else if (isModFavorite) {
+      // Moderate favorite: Some advantage but not dominant
+      if (homeFavored) {
+        hShots = rand(12, 16);
+        aShots = rand(7, 11);
+        hCorners = rand(5, 8);
+        aCorners = rand(3, 5);
+      } else {
+        hShots = rand(7, 11);
+        aShots = rand(12, 16);
+        hCorners = rand(3, 5);
+        aCorners = rand(5, 8);
+      }
     } else {
-      // Balanced game
-      hShots = rand(10, 16);
-      aShots = rand(9, 15);
-      hCorners = rand(4, 8);
-      aCorners = rand(3, 7);
+      // Balanced game: Even stats with slight home advantage
+      hShots = rand(10, 14);
+      aShots = rand(9, 13);
+      hCorners = rand(4, 6);
+      aCorners = rand(3, 6);
     }
 
-    const hSoT = Math.floor(hShots * (rand(30, 50) / 100));
-    const aSoT = Math.floor(aShots * (rand(30, 50) / 100));
+    // More realistic SoT conversion (35-45% is typical in Premier League)
+    const hSoT = Math.floor(hShots * (rand(35, 45) / 100));
+    const aSoT = Math.floor(aShots * (rand(35, 45) / 100));
     const totalCorners = hCorners + aCorners;
     const expectedGoals = (hSoT * 0.3) + (aSoT * 0.25); // Rough xG model
 
     return {
       goals: {
         prediction: expectedGoals > 2.6 ? "Over 2.5 Goals" : "Under 2.5 Goals",
-        confidence: isHeavyFavorite ? 75 : 60,
+        confidence: isStrongFavorite ? 75 : 60,
         val: expectedGoals.toFixed(1)
       },
       stats: {
@@ -64,9 +94,19 @@ const App = () => {
         shots: { home: hShots, away: aShots },
         sot: { home: hSoT, away: aSoT }
       },
-      betBuilder: `${teamName} to Win + ${expectedGoals > 2.2 ? 'Over 1.5 Goals' : 'Under 3.5 Goals'}`
+      betBuilder: `${homeFavored ? homeTeam : awayTeam} to Win + ${expectedGoals > 2.2 ? 'Over 1.5 Goals' : 'Under 3.5 Goals'}`
     };
   };
+
+  // Load team statistics on mount
+  useEffect(() => {
+    const loadStats = async () => {
+      const data = await statsService.loadTeamStats();
+      setDataSource(statsService.getDataSource());
+      setLastUpdated(statsService.getLastUpdated());
+    };
+    loadStats();
+  }, []);
 
   const processMatches = async () => {
     setLoading(true);
@@ -125,7 +165,7 @@ const App = () => {
           }
         }
 
-        const simulated = simulateStats(confidence, tip.replace(' Win', '').replace(' or Draw', ''));
+        const simulated = statsService.calculateMatchStats(match.home_team, match.away_team, probs.home, probs.away);
 
         return {
           id: match.id,
@@ -202,10 +242,28 @@ const App = () => {
             <Trophy className="w-12 h-12 text-yellow-400" />
             <h1 className="text-4xl font-bold text-white">Men's Premier League Predictor</h1>
           </div>
-          <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-6">
+          <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-4">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             LIVE ODDS & PREDICTIONS
           </p>
+          <div className="flex items-center justify-center gap-2 text-sm">
+            {dataSource === 'real' ? (
+              <div className="bg-green-500/20 border border-green-500/50 px-3 py-1 rounded-full flex items-center gap-2">
+                <Database className="w-3 h-3 text-green-400" />
+                <span className="text-green-300 font-semibold">Real Season Stats</span>
+              </div>
+            ) : dataSource === 'simulated' ? (
+              <div className="bg-orange-500/20 border border-orange-500/50 px-3 py-1 rounded-full flex items-center gap-2">
+                <AlertCircle className="w-3 h-3 text-orange-400" />
+                <span className="text-orange-300 font-semibold">Simulated Stats</span>
+              </div>
+            ) : null}
+            {lastUpdated && (
+              <span className="text-white/40 text-xs">
+                Updated: {new Date(lastUpdated).toLocaleDateString()}
+              </span>
+            )}
+          </div>
         </div>
 
         {error && (
