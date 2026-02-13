@@ -134,6 +134,7 @@ const App = () => {
           dateStr: new Date(match.commence_time).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
           timeStr: new Date(match.commence_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
           odds: parseFloat(tipOdd).toFixed(2),
+          bookmaker: bookmaker?.title || 'Live Odds',
           predictions: {
             result: { home: probs.home, draw: probs.draw, away: probs.away, tip, confidence },
             ...simulated
@@ -283,13 +284,22 @@ const App = () => {
               {/* Stats Grid - SIMULATED BASED ON ODDS */}
               <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* 1. Main Result Prediction */}
-                <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Trophy className="w-4 h-4 text-yellow-400" />
-                    <div className="text-xs text-purple-200 uppercase tracking-wider">Prediction</div>
+                <div className="bg-white/5 rounded-lg p-3 border border-white/10 flex justify-between items-center">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trophy className="w-4 h-4 text-yellow-400" />
+                      <div className="text-xs text-purple-200 uppercase tracking-wider">Prediction</div>
+                    </div>
+                    <div className="text-white font-bold text-lg">{match.predictions.result.tip}</div>
+                    <div className="text-xs text-white/50 mt-1">Confidence: {match.predictions.result.confidence}%</div>
                   </div>
-                  <div className="text-white font-bold text-lg">{match.predictions.result.tip}</div>
-                  <div className="text-xs text-white/50 mt-1">Confidence: {match.predictions.result.confidence}%</div>
+                  <div className="text-right">
+                    <div className="flex items-center justify-end gap-1.5 text-[10px] text-white/40 uppercase font-black mb-1">
+                      <Database className="w-3 h-3" />
+                      <span>{match.bookmaker}</span>
+                    </div>
+                    <div className="text-2xl font-black text-yellow-400 leading-none">{match.odds}</div>
+                  </div>
                 </div>
 
                 {/* 2. Goals & Fouls Averages */}
