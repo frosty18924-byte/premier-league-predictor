@@ -8,11 +8,10 @@ const App = () => {
   const [error, setError] = useState(null);
   const [filterMode, setFilterMode] = useState('next_matches'); // 'next_matches' is default
 
-  // API-FOOTBALL CONFIGURATION
   const API_KEY = '30b42a43d11b68ae3d0e5105b565f4d';
   const BASE_URL = 'https://v3.football.api-sports.io';
   const LEAGUE_ID = 39; // Premier League
-  const SEASON = 2024; // Current season
+  const SEASON = 2025; // Update for 2025/26 Season (Current date is Feb 2026)
 
   // --- Helpers ---
   const fetchAPI = async (endpoint) => {
@@ -135,8 +134,8 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
-      // 1. Fetch Next 5 Fixtures to respect rate limits
-      const fixturesData = await fetchAPI(`/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=5`);
+      // 1. Fetch Next 10 Fixtures to catch upcoming games
+      const fixturesData = await fetchAPI(`/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=10`);
       const fixtures = fixturesData.response;
 
       if (!fixtures || fixtures.length === 0) {
@@ -255,7 +254,7 @@ const App = () => {
           </div>
           <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-6">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            SEASON 2024/25 LIVE DATA
+            SEASON 2025/26 LIVE DATA
           </p>
         </div>
 
