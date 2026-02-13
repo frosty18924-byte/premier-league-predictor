@@ -41,7 +41,7 @@ const App = () => {
   const API_KEY = 'c58f0ea18c296b5e55916445cba66cc6';
   const BASE_URL = 'https://api.the-odds-api.com/v4/sports';
   const SPORT_KEY = LEAGUE_CONFIG[activeLeague].sportKey;
-  const REGION = 'uk';
+  const REGION = 'uk,eu';
   const MARKET = 'h2h';
 
   // --- Helpers ---
@@ -114,11 +114,40 @@ const App = () => {
         } : null);
 
 
-        if (!primaryBookie || !primaryBookie.home || !primaryBookie.away) return null;
+        // Calculate Top 3 for each outcome across ALL bookmakers
+        const getAllBookiePrices = (outcomeName) => {
+          const prices = match.bookmakers
+            .map(b => {
+              const market = b.markets[0];
+              const price = market?.outcomes.find(o => o.name === outcomeName)?.price;
+              return price ? { title: b.title, price } : null;
+            })
+            .filter(Boolean)
+            .sort((a, b) => b.price - a.price);
 
-        const homeOdd = primaryBookie.home;
-        const awayOdd = primaryBookie.away;
-        const drawOdd = primaryBookie.draw;
+          // Deduplicate by title to ensure 3 unique bookmakers
+          const seen = new Set();
+          const unique = [];
+          for (const item of prices) {
+            if (!seen.has(item.title)) {
+              seen.add(item.title);
+              unique.push(item);
+            }
+            if (unique.length === 3) break;
+          }
+          return unique;
+        };
+
+        const top3Home = getAllBookiePrices(match.home_team);
+        const top3Draw = getAllBookiePrices('Draw');
+        const top3Away = getAllBookiePrices(match.away_team);
+
+        // Use the absolute BEST market odds (Top 1) for the most accurate probability calculation
+        const homeOdd = top3Home[0]?.price || primaryBookie.home;
+        const awayOdd = top3Away[0]?.price || primaryBookie.away;
+        const drawOdd = top3Draw[0]?.price || primaryBookie.draw;
+
+        if (!homeOdd || !awayOdd || !drawOdd) return null;
 
         const probs = calculateProbability(homeOdd, drawOdd, awayOdd);
 
@@ -165,7 +194,12 @@ const App = () => {
           comparison: {
             bet365: b365,
             betfair: bfair,
-            alternative: alternative
+            alternative: alternative,
+            bestOdds: {
+              home: top3Home,
+              draw: top3Draw,
+              away: top3Away
+            }
           },
           predictions: {
             result: { home: probs.home, draw: probs.draw, away: probs.away, tip, confidence },
@@ -438,6 +472,36 @@ const App = () => {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+
+                  {/* Top 3 Market Leaders Rundown */}
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <TrendingUp className="w-4 h-4 text-green-400" />
+                      <h4 className="text-white text-xs font-black uppercase tracking-widest">Market Leaders (Top 3 Apps)</h4>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      {['home', 'draw', 'away'].map((type) => (
+                        <div key={type} className="space-y-2">
+                          <div className="text-[10px] text-white/40 uppercase font-black mb-1">
+                            {type === 'home' ? match.homeTeam : type === 'away' ? match.awayTeam : 'Draw'}
+                          </div>
+                          {match.comparison.bestOdds[type].map((item, i) => (
+                            <div key={i} className="flex justify-between items-center bg-white/5 rounded px-2 py-1.5">
+                              <div className="flex items-center gap-2 overflow-hidden">
+                                <span className={`text-[9px] font-black w-3 h-3 flex items-center justify-center rounded-full ${i === 0 ? 'bg-yellow-500 text-black' :
+                                  i === 1 ? 'bg-slate-300 text-black' :
+                                    'bg-orange-600 text-white'
+                                  }`}>{i + 1}</span>
+                                <span className="text-[10px] text-white/80 truncate">{item.title}</span>
+                              </div>
+                              <span className="text-[10px] font-mono font-bold text-green-400">{item.price.toFixed(2)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <button
                     onClick={() => setComparingMatchId(null)}
