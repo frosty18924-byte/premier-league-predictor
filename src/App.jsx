@@ -18,8 +18,8 @@ const App = () => {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: "GET",
       headers: {
-        "x-rapidapi-key": API_KEY,
-        "x-rapidapi-host": "v3.football.api-sports.io"
+        "x-apisports-key": API_KEY,
+        "x-apisports-host": "v3.football.api-sports.io"
       }
     });
     if (!response.ok) throw new Error(`API Error: ${response.status}`);
@@ -139,7 +139,8 @@ const App = () => {
       const fixtures = fixturesData.response;
 
       if (!fixtures || fixtures.length === 0) {
-        setError("No upcoming matches found.");
+        console.error("Empty fixtures response:", fixturesData);
+        setError(`No matches found for Season ${SEASON}. API Status: ${JSON.stringify(fixturesData.errors || 'OK')}`);
         setLoading(false);
         return;
       }
