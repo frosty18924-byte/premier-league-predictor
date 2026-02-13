@@ -134,8 +134,8 @@ const App = () => {
     setLoading(true);
     setError(null);
     try {
-      // 1. Fetch Next 10 Fixtures to catch upcoming games
-      const fixturesData = await fetchAPI(`/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=10`);
+      // 1. Fetch Next 6 Fixtures to catch upcoming games
+      const fixturesData = await fetchAPI(`/fixtures?league=${LEAGUE_ID}&season=${SEASON}&next=6`);
       const fixtures = fixturesData.response;
 
       if (!fixtures || fixtures.length === 0) {
@@ -145,9 +145,14 @@ const App = () => {
         return;
       }
 
-      // 2. Process each fixture
-      const processed = await Promise.all(fixtures.map(async (fixture) => {
-        // Fetch Bookmaker Odds (Bwin = 6)
+      // 2. Process each fixture SEQUENTIALLY to avoid Rate Limiting (Free tier issues)
+      const processed = [];
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+      for (const fixture of fixtures) {
+        // Add a small delay between requests
+        await delay(300);
+
         let odds = null;
         try {
           const oddsData = await fetchAPI(`/odds?fixture=${fixture.fixture.id}&bookmaker=6`);
@@ -157,30 +162,41 @@ const App = () => {
         }
 
         // Fetch Team Stats
-        const hStats = await getTeamStats(fixture.teams.home.id);
-        const aStats = await getTeamStats(fixture.teams.away.id);
+        // Stats are heavy, so we try-catch individually
+        let hStats = null;
+        let aStats = null;
 
-        const predictions = calculatePrediction(fixture.teams.home, fixture.teams.away, hStats, aStats, odds);
+        try {
+          hStats = await getTeamStats(fixture.teams.home.id);
+          await delay(200); // delay between stats calls
+          aStats = await getTeamStats(fixture.teams.away.id);
+        } catch (e) {
+          console.error("Stats error", e);
+        }
 
-        // Determine display odds
-        const bestOdd = odds ? odds.values.find(v =>
-          (predictions.result.tip.includes(fixture.teams.home.name) && v.value === 'Home') ||
-          (predictions.result.tip.includes(fixture.teams.away.name) && v.value === 'Away') ||
-          (predictions.result.tip === 'Draw' && v.value === 'Draw')
-        )?.odd || 1.5 : 1.5;
+        if (hStats && aStats) {
+          const predictions = calculatePrediction(fixture.teams.home, fixture.teams.away, hStats, aStats, odds);
 
-        return {
-          id: fixture.fixture.id,
-          homeTeam: fixture.teams.home.name,
-          awayTeam: fixture.teams.away.name,
-          rawDate: fixture.fixture.date,
-          // Split date and time for cleaner UI
-          dateStr: new Date(fixture.fixture.date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
-          timeStr: new Date(fixture.fixture.date).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
-          odds: parseFloat(bestOdd),
-          predictions: predictions
-        };
-      }));
+          // Determine display odds
+          const bestOdd = odds ? odds.values.find(v =>
+            (predictions.result.tip.includes(fixture.teams.home.name) && v.value === 'Home') ||
+            (predictions.result.tip.includes(fixture.teams.away.name) && v.value === 'Away') ||
+            (predictions.result.tip === 'Draw' && v.value === 'Draw')
+          )?.odd || 1.5 : 1.5;
+
+          processed.push({
+            id: fixture.fixture.id,
+            homeTeam: fixture.teams.home.name,
+            awayTeam: fixture.teams.away.name,
+            rawDate: fixture.fixture.date,
+            // Split date and time for cleaner UI
+            dateStr: new Date(fixture.fixture.date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
+            timeStr: new Date(fixture.fixture.date).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+            odds: parseFloat(bestOdd),
+            predictions: predictions
+          });
+        }
+      }
 
       setMatches(processed);
       generateRecommendedBets(processed);
