@@ -8,7 +8,7 @@ const App = () => {
   const [error, setError] = useState(null);
   const [filterMode, setFilterMode] = useState('next_matches'); // 'next_matches' is default
 
-  const API_KEY = '30b42a43d11b68ae3d0e5105b565f4d';
+  const API_KEY = '30b42a43d11b68ae3d0e5105b565f4d1';
   const BASE_URL = 'https://v3.football.api-sports.io';
   const LEAGUE_ID = 39; // Premier League
   const SEASON = 2025; // Update for 2025/26 Season (Current date is Feb 2026)
@@ -188,7 +188,8 @@ const App = () => {
 
     } catch (err) {
       console.error("Master fetch error", err);
-      setError("Failed to load data. API Rate limit may be exceeded.");
+      // Improve error message to help debug
+      setError(`Failed to load data. Error: ${err.message}. (Check console for details)`);
       setLoading(false);
     }
   };
