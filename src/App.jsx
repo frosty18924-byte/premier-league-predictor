@@ -9,7 +9,7 @@ const App = () => {
   const [filterMode, setFilterMode] = useState('next_matches'); // 'next_matches' is default
 
   const API_KEY = '30b42a43d11b68ae3d0e5105b565f4d1';
-  const BASE_URL = 'https://v3.football.api-sports.io';
+  const BASE_URL = '/v3-api'; // Use local proxy to avoid CORS
   const LEAGUE_ID = 39; // Premier League
   const SEASON = 2025; // Update for 2025/26 Season (Current date is Feb 2026)
 
