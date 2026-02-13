@@ -9,6 +9,7 @@ const App = () => {
   const [error, setError] = useState(null);
   const [dataSource, setDataSource] = useState('loading');
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [comparingMatchId, setComparingMatchId] = useState(null);
 
   const [activeLeague, setActiveLeague] = useState('premier-league');
 
@@ -82,16 +83,36 @@ const App = () => {
       const upcoming = data.slice(0, 10);
 
       const processed = upcoming.map(match => {
-        // Get best odds
-        const bookmaker = match.bookmakers.find(b => b.key === 'bet365' || b.key === 'williamhill') || match.bookmakers[0];
-        const market = bookmaker?.markets[0];
-        if (!market) return null;
+        // Helper to get odds for a specific bookmaker
+        const getBookieOdds = (key) => {
+          const bookie = match.bookmakers.find(b => b.key === key);
+          const market = bookie?.markets[0];
+          if (!market) return null;
 
-        const homeOdd = market.outcomes.find(o => o.name === match.home_team)?.price;
-        const awayOdd = market.outcomes.find(o => o.name === match.away_team)?.price;
-        const drawOdd = market.outcomes.find(o => o.name === 'Draw')?.price;
+          return {
+            title: bookie.title,
+            home: market.outcomes.find(o => o.name === match.home_team)?.price,
+            away: market.outcomes.find(o => o.name === match.away_team)?.price,
+            draw: market.outcomes.find(o => o.name === 'Draw')?.price
+          };
+        };
 
-        if (!homeOdd || !awayOdd) return null;
+        const b365 = getBookieOdds('bet365');
+        const bfair = getBookieOdds('betfair');
+
+        // Main bookie for the primary display
+        const primaryBookie = b365 || bfair || (match.bookmakers[0] ? {
+          title: match.bookmakers[0].title,
+          home: match.bookmakers[0].markets[0]?.outcomes.find(o => o.name === match.home_team)?.price,
+          away: match.bookmakers[0].markets[0]?.outcomes.find(o => o.name === match.away_team)?.price,
+          draw: match.bookmakers[0].markets[0]?.outcomes.find(o => o.name === 'Draw')?.price
+        } : null);
+
+        if (!primaryBookie || !primaryBookie.home || !primaryBookie.away) return null;
+
+        const homeOdd = primaryBookie.home;
+        const awayOdd = primaryBookie.away;
+        const drawOdd = primaryBookie.draw;
 
         const probs = calculateProbability(homeOdd, drawOdd, awayOdd);
 
@@ -134,7 +155,11 @@ const App = () => {
           dateStr: new Date(match.commence_time).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
           timeStr: new Date(match.commence_time).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
           odds: parseFloat(tipOdd).toFixed(2),
-          bookmaker: bookmaker?.title || 'Live Odds',
+          bookmaker: primaryBookie.title,
+          comparison: {
+            bet365: b365,
+            betfair: bfair
+          },
           predictions: {
             result: { home: probs.home, draw: probs.draw, away: probs.away, tip, confidence },
             ...simulated
@@ -283,15 +308,22 @@ const App = () => {
 
               {/* Stats Grid - SIMULATED BASED ON ODDS */}
               <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* 1. Main Result Prediction */}
-                <div className="bg-white/5 rounded-lg p-3 border border-white/10 flex justify-between items-center">
+                {/* 1. Main Result Prediction/Odds Comparison Toggle */}
+                <div
+                  onClick={() => setComparingMatchId(comparingMatchId === match.id ? null : match.id)}
+                  className={`bg-white/5 rounded-lg p-3 border cursor-pointer transition-all duration-300 hover:bg-white/10 flex justify-between items-center ${comparingMatchId === match.id ? 'border-yellow-500/50 bg-white/10' : 'border-white/10'
+                    }`}
+                >
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <Trophy className="w-4 h-4 text-yellow-400" />
                       <div className="text-xs text-purple-200 uppercase tracking-wider">Prediction</div>
                     </div>
                     <div className="text-white font-bold text-lg">{match.predictions.result.tip}</div>
-                    <div className="text-xs text-white/50 mt-1">Confidence: {match.predictions.result.confidence}%</div>
+                    <div className="text-xs text-white/50 mt-1 flex items-center gap-1">
+                      <span>Confidence: {match.predictions.result.confidence}%</span>
+                      <span className="text-[10px] bg-white/10 px-1 rounded text-yellow-500 underline decoration-yellow-500/30">Compare Odds</span>
+                    </div>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center justify-end gap-1.5 text-[10px] text-white/40 uppercase font-black mb-1">
@@ -344,6 +376,67 @@ const App = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Odds Comparison Table Expanded Section */}
+              {comparingMatchId === match.id && (
+                <div className="bg-black/30 border-t border-white/10 p-4 animate-in slide-in-from-top duration-300">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-white font-bold flex items-center gap-2">
+                      <Calculator className="w-4 h-4 text-yellow-500" />
+                      Odds Comparison
+                    </h3>
+                    <div className="text-[10px] text-white/40 uppercase font-black">Best Price Highlighted</div>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="text-[10px] text-purple-200 uppercase tracking-widest border-b border-white/10">
+                          <th className="pb-2 font-black">Bookmaker</th>
+                          <th className="pb-2 text-center font-black">{match.homeTeam}</th>
+                          <th className="pb-2 text-center font-black">Draw</th>
+                          <th className="pb-2 text-center font-black">{match.awayTeam}</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-sm">
+                        {[
+                          { id: 'bet365', name: 'Bet365', data: match.comparison.bet365 },
+                          { id: 'betfair', name: 'Betfair', data: match.comparison.betfair }
+                        ].map((bookie, idx) => (
+                          <tr key={idx} className="border-b border-white/5">
+                            <td className="py-3 font-bold text-white">{bookie.name}</td>
+                            {[
+                              { key: 'home', val: bookie.data?.home },
+                              { key: 'draw', val: bookie.data?.draw },
+                              { key: 'away', val: bookie.data?.away }
+                            ].map((outcome, oIdx) => {
+                              const otherBookie = idx === 0 ?
+                                (bookie.id === 'bet365' ? match.comparison.betfair : match.comparison.bet365) :
+                                (bookie.id === 'betfair' ? match.comparison.bet365 : match.comparison.betfair);
+                              const isBest = outcome.val && otherBookie?.[outcome.key] ? outcome.val >= otherBookie[outcome.key] : true;
+
+                              return (
+                                <td key={oIdx} className="py-3 text-center">
+                                  <div className={`inline-block px-3 py-1 rounded font-mono ${isBest ? 'bg-yellow-500 text-black font-black' : 'text-white/60'
+                                    }`}>
+                                    {outcome.val ? outcome.val.toFixed(2) : '-'}
+                                  </div>
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <button
+                    onClick={() => setComparingMatchId(null)}
+                    className="w-full mt-4 py-2 text-xs text-white/40 hover:text-white transition-colors"
+                  >
+                    Close Comparison
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
