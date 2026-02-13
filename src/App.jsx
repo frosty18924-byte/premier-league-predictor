@@ -204,8 +204,8 @@ const App = () => {
                 key={leagueId}
                 onClick={() => setActiveLeague(leagueId)}
                 className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${activeLeague === leagueId
-                    ? "bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 shadow-lg shadow-yellow-500/20 scale-105"
-                    : "text-white/60 hover:text-white hover:bg-white/10"
+                  ? "bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 shadow-lg shadow-yellow-500/20 scale-105"
+                  : "text-white/60 hover:text-white hover:bg-white/10"
                   }`}
               >
                 {activeLeague === leagueId && React.cloneElement(LEAGUE_CONFIG[leagueId].icon, { className: "w-4 h-4 text-slate-900" })}
@@ -218,7 +218,7 @@ const App = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             {LEAGUE_CONFIG[activeLeague].icon}
-            <h1 className="text-4xl font-bold text-white mb-0">Men's {LEAGUE_CONFIG[activeLeague].name} Predictor</h1>
+            <h1 className="text-4xl font-bold text-white mb-0">English Football League Predictor</h1>
           </div>
           <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-4">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
