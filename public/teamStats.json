@@ -1,286 +1,1302 @@
 {
-  "lastUpdated": "2026-02-13T11:25:46.993Z",
+  "lastUpdated": "2026-02-13T12:03:14.255Z",
   "season": "2025-26",
-  "dataSource": "Fallback data (scraping failed)",
-  "teams": {
-    "Arsenal": {
-      "home": {
-        "shotsPerGame": 17,
-        "shotsOnTargetPerGame": 6.5,
-        "cornersPerGame": 7,
-        "foulsPerGame": 10
+  "dataSource": "Curated averages for top 4 English divisions",
+  "leagues": {
+    "premier-league": {
+      "Arsenal": {
+        "home": {
+          "shotsPerGame": 17,
+          "shotsOnTargetPerGame": 6.5,
+          "cornersPerGame": 7,
+          "foulsPerGame": 10
+        },
+        "away": {
+          "shotsPerGame": 15,
+          "shotsOnTargetPerGame": 5.8,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        }
       },
-      "away": {
-        "shotsPerGame": 15,
-        "shotsOnTargetPerGame": 5.8,
-        "cornersPerGame": 6,
-        "foulsPerGame": 11
+      "Liverpool": {
+        "home": {
+          "shotsPerGame": 18,
+          "shotsOnTargetPerGame": 7,
+          "cornersPerGame": 7.5,
+          "foulsPerGame": 9
+        },
+        "away": {
+          "shotsPerGame": 16,
+          "shotsOnTargetPerGame": 6.2,
+          "cornersPerGame": 6.5,
+          "foulsPerGame": 10
+        }
+      },
+      "Manchester City": {
+        "home": {
+          "shotsPerGame": 19,
+          "shotsOnTargetPerGame": 7.2,
+          "cornersPerGame": 8,
+          "foulsPerGame": 10
+        },
+        "away": {
+          "shotsPerGame": 17,
+          "shotsOnTargetPerGame": 6.5,
+          "cornersPerGame": 7,
+          "foulsPerGame": 11
+        }
+      },
+      "Chelsea": {
+        "home": {
+          "shotsPerGame": 15,
+          "shotsOnTargetPerGame": 5.5,
+          "cornersPerGame": 6.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Tottenham Hotspur": {
+        "home": {
+          "shotsPerGame": 16,
+          "shotsOnTargetPerGame": 6,
+          "cornersPerGame": 6.8,
+          "foulsPerGame": 10
+        },
+        "away": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 5.2,
+          "cornersPerGame": 5.8,
+          "foulsPerGame": 11
+        }
+      },
+      "Manchester United": {
+        "home": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 5.2,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Newcastle United": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 4,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Aston Villa": {
+        "home": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.3,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Brighton & Hove Albion": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 10
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 4,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 11
+        }
+      },
+      "West Ham United": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Brentford": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 4.2,
+          "foulsPerGame": 13
+        }
+      },
+      "Fulham": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Crystal Palace": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 4,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.3,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Bournemouth": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 4,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.3,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Nottingham Forest": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 3,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
+      },
+      "Everton": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
+      },
+      "Leicester City": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
+      },
+      "Ipswich Town": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Wolverhampton Wanderers": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Southampton": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.3,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
       }
     },
-    "Liverpool": {
-      "home": {
-        "shotsPerGame": 18,
-        "shotsOnTargetPerGame": 7,
-        "cornersPerGame": 7.5,
-        "foulsPerGame": 9
+    "championship": {
+      "Sunderland": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 16,
-        "shotsOnTargetPerGame": 6.2,
-        "cornersPerGame": 6.5,
-        "foulsPerGame": 10
+      "Leeds United": {
+        "home": {
+          "shotsPerGame": 15,
+          "shotsOnTargetPerGame": 5.2,
+          "cornersPerGame": 6.5,
+          "foulsPerGame": 10
+        },
+        "away": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        }
+      },
+      "Sheffield United": {
+        "home": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.1,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Burnley": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "West Bromwich Albion": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 13
+        }
+      },
+      "Watford": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Middlesbrough": {
+        "home": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 6.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.1,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Millwall": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 14
+        }
+      },
+      "Blackburn Rovers": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Swansea City": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 12
+        }
+      },
+      "Stoke City": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Norwich City": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Coventry City": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Derby County": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Bristol City": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Portsmouth": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Sheffield Wednesday": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Hull City": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 12
+        }
+      },
+      "Plymouth Argyle": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
+      },
+      "Preston North End": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Oxford United": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Luton Town": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 13
+        }
+      },
+      "Queens Park Rangers": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Cardiff City": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.8,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.1,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
       }
     },
-    "Manchester City": {
-      "home": {
-        "shotsPerGame": 19,
-        "shotsOnTargetPerGame": 7.2,
-        "cornersPerGame": 8,
-        "foulsPerGame": 10
+    "league-one": {
+      "Birmingham City": {
+        "home": {
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 5,
+          "cornersPerGame": 6.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.3,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 17,
-        "shotsOnTargetPerGame": 6.5,
-        "cornersPerGame": 7,
-        "foulsPerGame": 11
+      "Wrexham": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.6,
+          "cornersPerGame": 6,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 13
+        }
+      },
+      "Huddersfield Town": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Bolton Wanderers": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.6,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Charlton Athletic": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Reading": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Wigan Athletic": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Blackpool": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Peterborough United": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.6,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
+      },
+      "Lincoln City": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Rotherham United": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 14
+        }
+      },
+      "Wycombe Wanderers": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Stockport County": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Mansfield Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Leyton Orient": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Stevenage": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 14
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 15
+        }
+      },
+      "Bristol Rovers": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
+      },
+      "Barnsley": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
+      },
+      "Exeter City": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Northampton Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Shrewsbury Town": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Cambridge United": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Burton Albion": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Crawley Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
       }
     },
-    "Chelsea": {
-      "home": {
-        "shotsPerGame": 15,
-        "shotsOnTargetPerGame": 5.5,
-        "cornersPerGame": 6.5,
-        "foulsPerGame": 11
+    "league-two": {
+      "Port Vale": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 13,
-        "shotsOnTargetPerGame": 4.8,
-        "cornersPerGame": 5.5,
-        "foulsPerGame": 12
-      }
-    },
-    "Tottenham Hotspur": {
-      "home": {
-        "shotsPerGame": 16,
-        "shotsOnTargetPerGame": 6,
-        "cornersPerGame": 6.8,
-        "foulsPerGame": 10
+      "Notts County": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.6,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 14,
-        "shotsOnTargetPerGame": 5.2,
-        "cornersPerGame": 5.8,
-        "foulsPerGame": 11
-      }
-    },
-    "Manchester United": {
-      "home": {
-        "shotsPerGame": 14,
-        "shotsOnTargetPerGame": 5.2,
-        "cornersPerGame": 6,
-        "foulsPerGame": 11
+      "Walsall": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 12,
-        "shotsOnTargetPerGame": 4.5,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
-      }
-    },
-    "Newcastle United": {
-      "home": {
-        "shotsPerGame": 13,
-        "shotsOnTargetPerGame": 4.8,
-        "cornersPerGame": 5.5,
-        "foulsPerGame": 11
+      "Doncaster Rovers": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 11,
-        "shotsOnTargetPerGame": 4,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 12
-      }
-    },
-    "Aston Villa": {
-      "home": {
-        "shotsPerGame": 14,
-        "shotsOnTargetPerGame": 5,
-        "cornersPerGame": 6,
-        "foulsPerGame": 11
+      "Milton Keynes Dons": {
+        "home": {
+          "shotsPerGame": 13,
+          "shotsOnTargetPerGame": 4.6,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 12,
-        "shotsOnTargetPerGame": 4.3,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
-      }
-    },
-    "Brighton & Hove Albion": {
-      "home": {
-        "shotsPerGame": 13,
-        "shotsOnTargetPerGame": 4.8,
-        "cornersPerGame": 5.5,
-        "foulsPerGame": 10
+      "Crewe Alexandra": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 11,
-        "shotsOnTargetPerGame": 4,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 11
-      }
-    },
-    "West Ham United": {
-      "home": {
-        "shotsPerGame": 12,
-        "shotsOnTargetPerGame": 4.5,
-        "cornersPerGame": 5.5,
-        "foulsPerGame": 12
+      "Gillingham": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 10,
-        "shotsOnTargetPerGame": 3.8,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 13
-      }
-    },
-    "Brentford": {
-      "home": {
-        "shotsPerGame": 12,
-        "shotsOnTargetPerGame": 4.5,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
+      "Chesterfield": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 11
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        }
       },
-      "away": {
-        "shotsPerGame": 10,
-        "shotsOnTargetPerGame": 3.8,
-        "cornersPerGame": 4.2,
-        "foulsPerGame": 13
-      }
-    },
-    "Fulham": {
-      "home": {
-        "shotsPerGame": 11,
-        "shotsOnTargetPerGame": 4.2,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
+      "Bradford City": {
+        "home": {
+          "shotsPerGame": 12,
+          "shotsOnTargetPerGame": 4.2,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3.5,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
-      }
-    },
-    "Crystal Palace": {
-      "home": {
-        "shotsPerGame": 11,
-        "shotsOnTargetPerGame": 4,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
+      "Barrow": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
       },
-      "away": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3.3,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
-      }
-    },
-    "Bournemouth": {
-      "home": {
-        "shotsPerGame": 11,
-        "shotsOnTargetPerGame": 4,
-        "cornersPerGame": 5,
-        "foulsPerGame": 12
+      "AFC Wimbledon": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3.3,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
-      }
-    },
-    "Nottingham Forest": {
-      "home": {
-        "shotsPerGame": 10,
-        "shotsOnTargetPerGame": 3.8,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 13
+      "Grimsby Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
       },
-      "away": {
-        "shotsPerGame": 8,
-        "shotsOnTargetPerGame": 3,
-        "cornersPerGame": 3.5,
-        "foulsPerGame": 14
-      }
-    },
-    "Everton": {
-      "home": {
-        "shotsPerGame": 10,
-        "shotsOnTargetPerGame": 3.5,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 13
+      "Cheltenham Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 8,
-        "shotsOnTargetPerGame": 2.8,
-        "cornersPerGame": 3.5,
-        "foulsPerGame": 14
-      }
-    },
-    "Leicester City": {
-      "home": {
-        "shotsPerGame": 10,
-        "shotsOnTargetPerGame": 3.5,
-        "cornersPerGame": 4.5,
-        "foulsPerGame": 13
+      "Fleetwood Town": {
+        "home": {
+          "shotsPerGame": 11,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 8,
-        "shotsOnTargetPerGame": 2.8,
-        "cornersPerGame": 3.5,
-        "foulsPerGame": 14
-      }
-    },
-    "Ipswich Town": {
-      "home": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3.2,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
+      "Harrogate Town": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
       },
-      "away": {
-        "shotsPerGame": 7,
-        "shotsOnTargetPerGame": 2.5,
-        "cornersPerGame": 3,
-        "foulsPerGame": 14
-      }
-    },
-    "Wolverhampton Wanderers": {
-      "home": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3.2,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
+      "Salford City": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
       },
-      "away": {
-        "shotsPerGame": 7,
-        "shotsOnTargetPerGame": 2.5,
-        "cornersPerGame": 3,
-        "foulsPerGame": 14
-      }
-    },
-    "Southampton": {
-      "home": {
-        "shotsPerGame": 9,
-        "shotsOnTargetPerGame": 3,
-        "cornersPerGame": 4,
-        "foulsPerGame": 13
+      "Accrington Stanley": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 14
+        }
       },
-      "away": {
-        "shotsPerGame": 7,
-        "shotsOnTargetPerGame": 2.3,
-        "cornersPerGame": 3,
-        "foulsPerGame": 14
+      "Tranmere Rovers": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Colchester United": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Bromley": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Carlisle United": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
+      },
+      "Morecambe": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Newport County": {
+        "home": {
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3.2,
+          "cornersPerGame": 4,
+          "foulsPerGame": 13
+        },
+        "away": {
+          "shotsPerGame": 7,
+          "shotsOnTargetPerGame": 2.5,
+          "cornersPerGame": 3,
+          "foulsPerGame": 14
+        }
+      },
+      "Swindon Town": {
+        "home": {
+          "shotsPerGame": 10,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4.5,
+          "foulsPerGame": 12
+        },
+        "away": {
+          "shotsPerGame": 8,
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 3.5,
+          "foulsPerGame": 13
+        }
       }
     }
   }

@@ -10,10 +10,36 @@ const App = () => {
   const [dataSource, setDataSource] = useState('loading');
   const [lastUpdated, setLastUpdated] = useState(null);
 
+  const [activeLeague, setActiveLeague] = useState('premier-league');
+
+  // LEAGUE CONFIGURATIONS
+  const LEAGUE_CONFIG = {
+    'premier-league': {
+      name: "Premier League",
+      sportKey: 'soccer_epl',
+      icon: <Trophy className="w-12 h-12 text-yellow-400" />
+    },
+    'championship': {
+      name: "EF Championship",
+      sportKey: 'soccer_efl_champ',
+      icon: <Users className="w-12 h-12 text-blue-400" />
+    },
+    'league-one': {
+      name: "EF League One",
+      sportKey: 'soccer_england_league1',
+      icon: <TrendingUp className="w-12 h-12 text-green-400" />
+    },
+    'league-two': {
+      name: "EF League Two",
+      sportKey: 'soccer_england_league2',
+      icon: <Flag className="w-12 h-12 text-red-400" />
+    }
+  };
+
   // THE ODDS API CONFIGURATION
   const API_KEY = 'c58f0ea18c296b5e55916445cba66cc6';
   const BASE_URL = 'https://api.the-odds-api.com/v4/sports';
-  const SPORT_KEY = 'soccer_epl';
+  const SPORT_KEY = LEAGUE_CONFIG[activeLeague].sportKey;
   const REGION = 'uk';
   const MARKET = 'h2h';
 
@@ -28,74 +54,7 @@ const App = () => {
   };
 
   const simulateStats = (homeProb, awayProb, homeTeam, awayTeam) => {
-    // Determine which team is stronger based on win probability
-    const homeFavored = homeProb > awayProb;
-    const probDiff = Math.abs(homeProb - awayProb);
-
-    // Strong favorite if probability difference is > 25%
-    const isStrongFavorite = probDiff > 25;
-    const isModFavorite = probDiff > 15;
-
-    // Random variance to make it look natural
-    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-    let hShots, aShots, hCorners, aCorners;
-
-    if (isStrongFavorite) {
-      // Clear favorite: Dominant team gets significantly more shots
-      if (homeFavored) {
-        hShots = rand(14, 20);
-        aShots = rand(5, 9);
-        hCorners = rand(6, 10);
-        aCorners = rand(2, 4);
-      } else {
-        // Away team is strong favorite (rare but happens)
-        hShots = rand(5, 9);
-        aShots = rand(14, 20);
-        hCorners = rand(2, 4);
-        aCorners = rand(6, 10);
-      }
-    } else if (isModFavorite) {
-      // Moderate favorite: Some advantage but not dominant
-      if (homeFavored) {
-        hShots = rand(12, 16);
-        aShots = rand(7, 11);
-        hCorners = rand(5, 8);
-        aCorners = rand(3, 5);
-      } else {
-        hShots = rand(7, 11);
-        aShots = rand(12, 16);
-        hCorners = rand(3, 5);
-        aCorners = rand(5, 8);
-      }
-    } else {
-      // Balanced game: Even stats with slight home advantage
-      hShots = rand(10, 14);
-      aShots = rand(9, 13);
-      hCorners = rand(4, 6);
-      aCorners = rand(3, 6);
-    }
-
-    // More realistic SoT conversion (35-45% is typical in Premier League)
-    const hSoT = Math.floor(hShots * (rand(35, 45) / 100));
-    const aSoT = Math.floor(aShots * (rand(35, 45) / 100));
-    const totalCorners = hCorners + aCorners;
-    const expectedGoals = (hSoT * 0.3) + (aSoT * 0.25); // Rough xG model
-
-    return {
-      goals: {
-        prediction: expectedGoals > 2.6 ? "Over 2.5 Goals" : "Under 2.5 Goals",
-        confidence: isStrongFavorite ? 75 : 60,
-        val: expectedGoals.toFixed(1)
-      },
-      stats: {
-        fouls: `${rand(18, 26)} (Avg)`,
-        corners: { home: hCorners, away: aCorners, total: totalCorners },
-        shots: { home: hShots, away: aShots },
-        sot: { home: hSoT, away: aSoT }
-      },
-      betBuilder: `${homeFavored ? homeTeam : awayTeam} to Win + ${expectedGoals > 2.2 ? 'Over 1.5 Goals' : 'Under 3.5 Goals'}`
-    };
+    return statsService.calculateMatchStats(homeTeam, awayTeam, homeProb, awayProb, activeLeague);
   };
 
   // Load team statistics on mount
@@ -165,7 +124,7 @@ const App = () => {
           }
         }
 
-        const simulated = statsService.calculateMatchStats(match.home_team, match.away_team, probs.home, probs.away);
+        const simulated = statsService.calculateMatchStats(match.home_team, match.away_team, probs.home, probs.away, activeLeague);
 
         return {
           id: match.id,
@@ -212,7 +171,7 @@ const App = () => {
 
   useEffect(() => {
     processMatches();
-  }, []);
+  }, [activeLeague]);
 
   // --- UI Helpers ---
   const getConfidenceColor = (confidence) => {
@@ -237,10 +196,29 @@ const App = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 p-6 pb-32">
       <div className="max-w-7xl mx-auto">
+        {/* League Switcher */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="flex flex-wrap justify-center gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10">
+            {Object.keys(LEAGUE_CONFIG).map((leagueId) => (
+              <button
+                key={leagueId}
+                onClick={() => setActiveLeague(leagueId)}
+                className={`flex-1 min-w-[140px] px-4 py-2.5 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${activeLeague === leagueId
+                    ? "bg-gradient-to-r from-yellow-500 to-yellow-600 text-slate-900 shadow-lg shadow-yellow-500/20 scale-105"
+                    : "text-white/60 hover:text-white hover:bg-white/10"
+                  }`}
+              >
+                {activeLeague === leagueId && React.cloneElement(LEAGUE_CONFIG[leagueId].icon, { className: "w-4 h-4 text-slate-900" })}
+                {LEAGUE_CONFIG[leagueId].name}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Trophy className="w-12 h-12 text-yellow-400" />
-            <h1 className="text-4xl font-bold text-white">Men's Premier League Predictor</h1>
+            {LEAGUE_CONFIG[activeLeague].icon}
+            <h1 className="text-4xl font-bold text-white mb-0">Men's {LEAGUE_CONFIG[activeLeague].name} Predictor</h1>
           </div>
           <p className="text-green-400 text-lg flex items-center justify-center gap-2 font-bold mb-4">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>

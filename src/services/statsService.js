@@ -1,13 +1,8 @@
-// Service to load and use real team statistics from scraped data
-
-const FALLBACK_STATS = {
-    home: { shots: 12, sot: 4.5, corners: 5.5, fouls: 11 },
-    away: { shots: 10, sot: 3.8, corners: 4.5, fouls: 12 }
-};
+// Service to load and use real team statistics from scraped data for multiple leagues
 
 class StatsService {
     constructor() {
-        this.teamStats = null;
+        this.allLeaguesStats = null;
         this.isLoaded = false;
         this.dataSource = 'simulated';
     }
@@ -18,13 +13,12 @@ class StatsService {
             if (!response.ok) throw new Error('Failed to fetch team stats');
 
             const data = await response.json();
-            this.teamStats = data;
+            this.allLeaguesStats = data;
             this.isLoaded = true;
             this.dataSource = 'real';
 
-            console.log('✅ Loaded real team statistics');
+            console.log('✅ Loaded real multi-league team statistics');
             console.log(`📅 Last updated: ${data.lastUpdated}`);
-            console.log(`⚽ Teams: ${Object.keys(data.teams).length}`);
 
             return data;
         } catch (error) {
@@ -34,23 +28,39 @@ class StatsService {
         }
     }
 
-    getTeamStats(teamName, isHome) {
-        if (!this.isLoaded || !this.teamStats) {
+    getTeamStats(teamName, isHome, leagueId) {
+        if (!this.isLoaded || !this.allLeaguesStats) {
             return null;
         }
 
-        const team = this.teamStats.teams[teamName];
+        // Map internal league IDs to the keys used in teamStats.json
+        const leagueMap = {
+            'premier-league': 'PREMIER_LEAGUE',
+            'championship': 'CHAMPIONSHIP',
+            'league-one': 'LEAGUE_ONE',
+            'league-two': 'LEAGUE_TWO'
+        };
+
+        const leagueKey = leagueMap[leagueId] || 'PREMIER_LEAGUE';
+        const leagueData = this.allLeaguesStats.leagues[leagueKey];
+
+        if (!leagueData) {
+            console.warn(`⚠️  No division data found for ${leagueId}`);
+            return null;
+        }
+
+        const team = leagueData[teamName];
         if (!team) {
-            console.warn(`⚠️  No stats found for ${teamName}, using fallback`);
+            console.warn(`⚠️  No stats found for ${teamName} in division ${leagueId}, using fallback`);
             return null;
         }
 
         return isHome ? team.home : team.away;
     }
 
-    calculateMatchStats(homeTeam, awayTeam, homeProb, awayProb) {
-        const homeStats = this.getTeamStats(homeTeam, true);
-        const awayStats = this.getTeamStats(awayTeam, false);
+    calculateMatchStats(homeTeam, awayTeam, homeProb, awayProb, leagueId) {
+        const homeStats = this.getTeamStats(homeTeam, true, leagueId);
+        const awayStats = this.getTeamStats(awayTeam, false, leagueId);
 
         // If we have real stats, use them
         if (homeStats && awayStats) {
@@ -97,7 +107,6 @@ class StatsService {
     }
 
     simulateStats(homeProb, awayProb, homeTeam, awayTeam) {
-        // Fallback simulation logic (same as before)
         const homeFavored = homeProb > awayProb;
         const probDiff = Math.abs(homeProb - awayProb);
 
@@ -165,10 +174,9 @@ class StatsService {
     }
 
     getLastUpdated() {
-        return this.teamStats?.lastUpdated || null;
+        return this.allLeaguesStats?.lastUpdated || null;
     }
 }
 
-// Export singleton instance
 const statsService = new StatsService();
 export default statsService;
