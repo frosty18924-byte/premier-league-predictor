@@ -28,12 +28,42 @@ class StatsService {
         }
     }
 
-    getTeamStats(teamName, isHome, leagueId) {
-        if (!this.isLoaded || !this.allLeaguesStats) {
-            return null;
-        }
+    _normalizeTeamName(name) {
+        if (!name) return "";
+        const mapping = {
+            'Wolverhampton Wanderers': 'Wolves',
+            'Manchester United': 'Man United',
+            'Manchester City': 'Man City',
+            'Nottingham Forest': "Nott'm Forest",
+            'Tottenham Hotspur': 'Tottenham',
+            'Brighton and Hove Albion': 'Brighton',
+            'West Ham United': 'West Ham',
+            'Newcastle United': 'Newcastle',
+            'Leicester City': 'Leicester',
+            'Ipswich Town': 'Ipswich',
+            'Luton Town': 'Luton',
+            'Norwich City': 'Norwich',
+            'Leeds United': 'Leeds',
+            'Sheffield Wednesday': 'Sheffield Weds',
+            'West Bromwich Albion': 'West Brom',
+            'Queens Park Rangers': 'QPR',
+            'Blackburn Rovers': 'Blackburn',
+            'Preston North End': 'Preston',
+            'Hull City': 'Hull',
+            'Bristol City': 'Bristol City',
+            'Cardiff City': 'Cardiff',
+            'Swansea City': 'Swansea',
+            'Burnley FC': 'Burnley',
+            'Chelsea FC': 'Chelsea'
+        };
 
-        // Map internal league IDs to the keys used in teamStats.json
+        return mapping[name] || name;
+    }
+
+    getTeamStats(teamName, isHome, leagueId) {
+        if (!this.allLeaguesStats) return null;
+
+        const normalizedName = this._normalizeTeamName(teamName);
         const leagueMap = {
             'premier-league': 'PREMIER_LEAGUE',
             'championship': 'CHAMPIONSHIP',
@@ -42,20 +72,11 @@ class StatsService {
         };
 
         const leagueKey = leagueMap[leagueId] || 'PREMIER_LEAGUE';
-        const leagueData = this.allLeaguesStats.leagues[leagueKey];
+        const teamStats = this.allLeaguesStats.leagues[leagueKey]?.[normalizedName];
 
-        if (!leagueData) {
-            console.warn(`⚠️  No division data found for ${leagueId}`);
-            return null;
-        }
+        if (!teamStats) return null;
 
-        const team = leagueData[teamName];
-        if (!team) {
-            console.warn(`⚠️  No stats found for ${teamName} in division ${leagueId}, using fallback`);
-            return null;
-        }
-
-        return isHome ? team.home : team.away;
+        return isHome ? teamStats.home : teamStats.away;
     }
 
     calculateMatchStats(homeTeam, awayTeam, homeProb, awayProb, leagueId) {
@@ -75,20 +96,26 @@ class StatsService {
         const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const homeFavored = homeProb > awayProb;
 
-        // Use real averages with slight variance (±15%)
-        const variance = 0.15;
+        // Match Dynamic Multiplier (Weighting based on WIN probability diff)
+        // High prob = higher share of shots/corners than season average
+        const probDiff = (homeProb - awayProb) / 100;
+        const weightFactor = 0.6; // Sensitivity
+        const hMultiplier = 1 + (probDiff * weightFactor);
+        const aMultiplier = 1 - (probDiff * weightFactor);
 
-        const hShots = Math.round(homeStats.shotsPerGame * (1 + (Math.random() * variance * 2 - variance)));
-        const aShots = Math.round(awayStats.shotsPerGame * (1 + (Math.random() * variance * 2 - variance)));
+        const variance = 0.12; // ±12% match-day variance
 
-        const hSoT = Math.round(homeStats.shotsOnTargetPerGame * (1 + (Math.random() * variance * 2 - variance)));
-        const aSoT = Math.round(awayStats.shotsOnTargetPerGame * (1 + (Math.random() * variance * 2 - variance)));
+        const hShots = Math.round(homeStats.shotsPerGame * hMultiplier * (1 + (Math.random() * variance * 2 - variance)));
+        const aShots = Math.round(awayStats.shotsPerGame * aMultiplier * (1 + (Math.random() * variance * 2 - variance)));
 
-        const hCorners = Math.round(homeStats.cornersPerGame * (1 + (Math.random() * variance * 2 - variance)));
-        const aCorners = Math.round(awayStats.cornersPerGame * (1 + (Math.random() * variance * 2 - variance)));
+        const hSoT = Math.round(homeStats.shotsOnTargetPerGame * hMultiplier * (1 + (Math.random() * variance * 2 - variance)));
+        const aSoT = Math.round(awayStats.shotsOnTargetPerGame * aMultiplier * (1 + (Math.random() * variance * 2 - variance)));
+
+        const hCorners = Math.round(homeStats.cornersPerGame * hMultiplier * (1 + (Math.random() * variance * 2 - variance)));
+        const aCorners = Math.round(awayStats.cornersPerGame * aMultiplier * (1 + (Math.random() * variance * 2 - variance)));
 
         const totalCorners = hCorners + aCorners;
-        const expectedGoals = (hSoT * 0.3) + (aSoT * 0.25);
+        const expectedGoals = (hSoT * 0.32) + (aSoT * 0.28); // Adjusted coefficient
 
         return {
             goals: {
@@ -167,6 +194,21 @@ class StatsService {
             },
             betBuilder: `${homeFavored ? homeTeam : awayTeam} to Win + ${expectedGoals > 2.2 ? 'Over 1.5 Goals' : 'Under 3.5 Goals'}`
         };
+    }
+
+    getRawTeamStats(teamName, leagueId) {
+        if (!this.isLoaded || !this.allLeaguesStats) return null;
+
+        const normalizedName = this._normalizeTeamName(teamName);
+        const leagueMap = {
+            'premier-league': 'PREMIER_LEAGUE',
+            'championship': 'CHAMPIONSHIP',
+            'league-one': 'LEAGUE_ONE',
+            'league-two': 'LEAGUE_TWO'
+        };
+
+        const leagueKey = leagueMap[leagueId] || 'PREMIER_LEAGUE';
+        return this.allLeaguesStats.leagues[leagueKey]?.[normalizedName] || null;
     }
 
     getDataSource() {

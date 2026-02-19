@@ -7,161 +7,123 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const LEAGUES = {
-    PREMIER_LEAGUE: 'premier-league',
-    CHAMPIONSHIP: 'championship',
-    LEAGUE_ONE: 'league-one',
-    LEAGUE_TWO: 'league-two'
+    PREMIER_LEAGUE: 'PREMIER_LEAGUE',
+    CHAMPIONSHIP: 'CHAMPIONSHIP',
+    LEAGUE_ONE: 'LEAGUE_ONE',
+    LEAGUE_TWO: 'LEAGUE_TWO'
 };
 
-// Realistic fallback statistics for all 92 English clubs
-const FALLBACK_STATS = {
-    [LEAGUES.PREMIER_LEAGUE]: {
-        'Arsenal': { home: { shots: 17, sot: 6.5, corners: 7, fouls: 10 }, away: { shots: 15, sot: 5.8, corners: 6, fouls: 11 } },
-        'Liverpool': { home: { shots: 18, sot: 7, corners: 7.5, fouls: 9 }, away: { shots: 16, sot: 6.2, corners: 6.5, fouls: 10 } },
-        'Manchester City': { home: { shots: 19, sot: 7.2, corners: 8, fouls: 10 }, away: { shots: 17, sot: 6.5, corners: 7, fouls: 11 } },
-        'Chelsea': { home: { shots: 15, sot: 5.5, corners: 6.5, fouls: 11 }, away: { shots: 13, sot: 4.8, corners: 5.5, fouls: 12 } },
-        'Tottenham Hotspur': { home: { shots: 16, sot: 6, corners: 6.8, fouls: 10 }, away: { shots: 14, sot: 5.2, corners: 5.8, fouls: 11 } },
-        'Manchester United': { home: { shots: 14, sot: 5.2, corners: 6, fouls: 11 }, away: { shots: 12, sot: 4.5, corners: 5, fouls: 12 } },
-        'Newcastle United': { home: { shots: 13, sot: 4.8, corners: 5.5, fouls: 11 }, away: { shots: 11, sot: 4, corners: 4.5, fouls: 12 } },
-        'Aston Villa': { home: { shots: 14, sot: 5, corners: 6, fouls: 11 }, away: { shots: 12, sot: 4.3, corners: 5, fouls: 12 } },
-        'Brighton & Hove Albion': { home: { shots: 13, sot: 4.8, corners: 5.5, fouls: 10 }, away: { shots: 11, sot: 4, corners: 4.5, fouls: 11 } },
-        'West Ham United': { home: { shots: 12, sot: 4.5, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.8, corners: 4.5, fouls: 13 } },
-        'Brentford': { home: { shots: 12, sot: 4.5, corners: 5, fouls: 12 }, away: { shots: 10, sot: 3.8, corners: 4.2, fouls: 13 } },
-        'Fulham': { home: { shots: 11, sot: 4.2, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.5, corners: 4, fouls: 13 } },
-        'Crystal Palace': { home: { shots: 11, sot: 4, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.3, corners: 4, fouls: 13 } },
-        'Bournemouth': { home: { shots: 11, sot: 4, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.3, corners: 4, fouls: 13 } },
-        'Nottingham Forest': { home: { shots: 10, sot: 3.8, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 3, corners: 3.5, fouls: 14 } },
-        'Everton': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'Leicester City': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'Ipswich Town': { home: { shots: 9, sot: 3.2, corners: 4, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3, fouls: 14 } },
-        'Wolverhampton Wanderers': { home: { shots: 9, sot: 3.2, corners: 4, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3, fouls: 14 } },
-        'Southampton': { home: { shots: 9, sot: 3, corners: 4, fouls: 13 }, away: { shots: 7, sot: 2.3, corners: 3, fouls: 14 } }
-    },
-    [LEAGUES.CHAMPIONSHIP]: {
-        'Sunderland': { home: { shots: 13, sot: 4.5, corners: 5.5, fouls: 11 }, away: { shots: 11, sot: 3.8, corners: 4.5, fouls: 12 } },
-        'Leeds United': { home: { shots: 15, sot: 5.2, corners: 6.5, fouls: 10 }, away: { shots: 13, sot: 4.5, corners: 5.5, fouls: 11 } },
-        'Sheffield United': { home: { shots: 14, sot: 4.8, corners: 6, fouls: 11 }, away: { shots: 12, sot: 4.1, corners: 5, fouls: 12 } },
-        'Burnley': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'West Bromwich Albion': { home: { shots: 13, sot: 4.5, corners: 6, fouls: 12 }, away: { shots: 11, sot: 3.8, corners: 5, fouls: 13 } },
-        'Watford': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Middlesbrough': { home: { shots: 14, sot: 4.8, corners: 6.5, fouls: 11 }, away: { shots: 12, sot: 4.1, corners: 5.5, fouls: 12 } },
-        'Millwall': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 13 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 14 } },
-        'Blackburn Rovers': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Swansea City': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 11 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 12 } },
-        'Stoke City': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Norwich City': { home: { shots: 13, sot: 4.5, corners: 6, fouls: 11 }, away: { shots: 11, sot: 3.8, corners: 5, fouls: 12 } },
-        'Coventry City': { home: { shots: 13, sot: 4.5, corners: 6, fouls: 11 }, away: { shots: 11, sot: 3.8, corners: 5, fouls: 12 } },
-        'Derby County': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 13 } },
-        'Bristol City': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Portsmouth': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Sheffield Wednesday': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Hull City': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 11 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 12 } },
-        'Plymouth Argyle': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'Preston North End': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 13 } },
-        'Oxford United': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Luton Town': { home: { shots: 13, sot: 4.5, corners: 6, fouls: 12 }, away: { shots: 11, sot: 3.8, corners: 5, fouls: 13 } },
-        'Queens Park Rangers': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 13 } },
-        'Cardiff City': { home: { shots: 11, sot: 3.8, corners: 5, fouls: 12 }, away: { shots: 9, sot: 3.1, corners: 4, fouls: 13 } }
-    },
-    [LEAGUES.LEAGUE_ONE]: {
-        'Birmingham City': { home: { shots: 14, sot: 5.0, corners: 6.5, fouls: 11 }, away: { shots: 12, sot: 4.3, corners: 5.5, fouls: 12 } },
-        'Wrexham': { home: { shots: 13, sot: 4.6, corners: 6.0, fouls: 12 }, away: { shots: 11, sot: 3.9, corners: 5.0, fouls: 13 } },
-        'Huddersfield Town': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Bolton Wanderers': { home: { shots: 13, sot: 4.6, corners: 6.0, fouls: 11 }, away: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 } },
-        'Charlton Athletic': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Reading': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Wigan Athletic': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Blackpool': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Peterborough United': { home: { shots: 13, sot: 4.6, corners: 6.0, fouls: 11 }, away: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 } },
-        'Lincoln City': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Rotherham United': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 13 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 14 } },
-        'Wycombe Wanderers': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Stockport County': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Mansfield Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Leyton Orient': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Stevenage': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 14 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 15 } },
-        'Bristol Rovers': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Barnsley': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Exeter City': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Northampton Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Shrewsbury Town': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Cambridge United': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Burton Albion': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Crawley Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } }
-    },
-    [LEAGUES.LEAGUE_TWO]: {
-        'Port Vale': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Notts County': { home: { shots: 13, sot: 4.6, corners: 6.0, fouls: 11 }, away: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 } },
-        'Walsall': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Doncaster Rovers': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Milton Keynes Dons': { home: { shots: 13, sot: 4.6, corners: 6.0, fouls: 11 }, away: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 } },
-        'Crewe Alexandra': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Gillingham': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Chesterfield': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 11 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 } },
-        'Bradford City': { home: { shots: 12, sot: 4.2, corners: 5.5, fouls: 12 }, away: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 } },
-        'Barrow': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'AFC Wimbledon': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Grimsby Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'Cheltenham Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Fleetwood Town': { home: { shots: 11, sot: 3.9, corners: 5.0, fouls: 12 }, away: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 } },
-        'Harrogate Town': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Salford City': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Accrington Stanley': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 13 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 14 } },
-        'Tranmere Rovers': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Colchester United': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Bromley': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Carlisle United': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } },
-        'Morecambe': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Newport County': { home: { shots: 9, sot: 3.2, corners: 4.0, fouls: 13 }, away: { shots: 7, sot: 2.5, corners: 3.0, fouls: 14 } },
-        'Swindon Town': { home: { shots: 10, sot: 3.5, corners: 4.5, fouls: 12 }, away: { shots: 8, sot: 2.8, corners: 3.5, fouls: 13 } }
-    }
+// football-data.co.uk CSV endpoints (E0-E3 for top 4 English leagues)
+const LEAGUE_CONFIGS = {
+    [LEAGUES.PREMIER_LEAGUE]: { code: 'E0', name: 'Premier League' },
+    [LEAGUES.CHAMPIONSHIP]: { code: 'E1', name: 'Championship' },
+    [LEAGUES.LEAGUE_ONE]: { code: 'E2', name: 'League One' },
+    [LEAGUES.LEAGUE_TWO]: { code: 'E3', name: 'League Two' }
 };
 
-async function scrapeAllStats() {
-    console.log('🔍 Starting comprehensive English football stats scraper...\n');
+const SEASON = '2526'; // Format YYZZ for 2025-2026
+
+async function fetchAndAggregateStats(leagueKey) {
+    const config = LEAGUE_CONFIGS[leagueKey];
+    const url = `https://www.football-data.co.uk/mmz4281/${SEASON}/${config.code}.csv`;
 
     try {
-        const allLeaguesStats = {
-            lastUpdated: new Date().toISOString(),
-            season: '2025-26',
-            dataSource: 'Curated averages for top 4 English divisions',
-            leagues: {}
-        };
+        console.log(`📡 Fetching match data for ${config.name}...`);
+        const { data } = await axios.get(url);
 
-        Object.keys(FALLBACK_STATS).forEach(leagueKey => {
-            allLeaguesStats.leagues[leagueKey] = {};
-            const leagueTeams = FALLBACK_STATS[leagueKey];
+        // Simple CSV parser
+        const lines = data.split('\n').filter(line => line.trim() !== '');
+        if (lines.length < 2) return {};
 
-            Object.keys(leagueTeams).forEach(team => {
-                const stats = leagueTeams[team];
-                allLeaguesStats.leagues[leagueKey][team] = {
-                    home: {
-                        shotsPerGame: stats.home.shots,
-                        shotsOnTargetPerGame: stats.home.sot,
-                        cornersPerGame: stats.home.corners,
-                        foulsPerGame: stats.home.fouls
-                    },
-                    away: {
-                        shotsPerGame: stats.away.shots,
-                        shotsOnTargetPerGame: stats.away.sot,
-                        cornersPerGame: stats.away.corners,
-                        foulsPerGame: stats.away.fouls
-                    }
-                };
+        const headers = lines[0].split(',');
+        const rows = lines.slice(1).map(line => {
+            const values = line.split(',');
+            const obj = {};
+            headers.forEach((header, i) => {
+                obj[header] = values[i];
             });
+            return obj;
         });
 
-        const outputPath = path.join(__dirname, '..', 'public', 'teamStats.json');
-        fs.writeFileSync(outputPath, JSON.stringify(allLeaguesStats, null, 2));
+        const teamStats = {};
 
-        console.log('✅ Successfully created multi-league teamStats.json');
-        console.log(`📁 Location: ${outputPath}`);
-        console.log(`📅 Last updated: ${allLeaguesStats.lastUpdated}`);
-        console.log(`🏆 Leagues included: Premier League, Championship, League One, League Two\n`);
+        rows.forEach(row => {
+            const homeTeam = row.HomeTeam;
+            const awayTeam = row.AwayTeam;
 
+            if (!homeTeam || !awayTeam) return;
+
+            // Initialize teams if not exists
+            if (!teamStats[homeTeam]) teamStats[homeTeam] = { home: { games: 0, s: 0, st: 0, c: 0, f: 0 }, away: { games: 0, s: 0, st: 0, c: 0, f: 0 } };
+            if (!teamStats[awayTeam]) teamStats[awayTeam] = { home: { games: 0, s: 0, st: 0, c: 0, f: 0 }, away: { games: 0, s: 0, st: 0, c: 0, f: 0 } };
+
+            // Accumulate Home Stats
+            teamStats[homeTeam].home.games++;
+            teamStats[homeTeam].home.s += parseFloat(row.HS) || 0;
+            teamStats[homeTeam].home.st += parseFloat(row.HST) || 0;
+            teamStats[homeTeam].home.c += parseFloat(row.HC) || 0;
+            teamStats[homeTeam].home.f += parseFloat(row.HF) || 0;
+
+            // Accumulate Away Stats
+            teamStats[awayTeam].away.games++;
+            teamStats[awayTeam].away.s += parseFloat(row.AS) || 0;
+            teamStats[awayTeam].away.st += parseFloat(row.AST) || 0;
+            teamStats[awayTeam].away.c += parseFloat(row.AC) || 0;
+            teamStats[awayTeam].away.f += parseFloat(row.AF) || 0;
+        });
+
+        // Calculate Averages
+        const finalStats = {};
+        Object.keys(teamStats).forEach(team => {
+            const s = teamStats[team];
+            finalStats[team] = {
+                home: {
+                    shotsPerGame: s.home.games > 0 ? Math.round((s.home.s / s.home.games) * 10) / 10 : 12,
+                    shotsOnTargetPerGame: s.home.games > 0 ? Math.round((s.home.st / s.home.games) * 10) / 10 : 4,
+                    cornersPerGame: s.home.games > 0 ? Math.round((s.home.c / s.home.games) * 10) / 10 : 5,
+                    foulsPerGame: s.home.games > 0 ? Math.round((s.home.f / s.home.games) * 10) / 10 : 10
+                },
+                away: {
+                    shotsPerGame: s.away.games > 0 ? Math.round((s.away.s / s.away.games) * 10) / 10 : 10,
+                    shotsOnTargetPerGame: s.away.games > 0 ? Math.round((s.away.st / s.away.games) * 10) / 10 : 3.5,
+                    cornersPerGame: s.away.games > 0 ? Math.round((s.away.c / s.away.games) * 10) / 10 : 4,
+                    foulsPerGame: s.away.games > 0 ? Math.round((s.away.f / s.away.games) * 10) / 10 : 11
+                }
+            };
+        });
+
+        return finalStats;
     } catch (error) {
-        console.error('❌ Error generating multi-league stats:', error.message);
+        console.error(`Error processing ${config.name}:`, error.message);
+        return {};
     }
+}
+
+async function scrapeAllStats() {
+    console.log('🔍 Starting comprehensive football stats aggregator...\n');
+
+    const allLeaguesStats = {
+        lastUpdated: new Date().toISOString(),
+        season: '2025-26',
+        dataSource: 'Aggregated match-by-match data from football-data.co.uk',
+        leagues: {}
+    };
+
+    for (const leagueKey of Object.keys(LEAGUE_CONFIGS)) {
+        const stats = await fetchAndAggregateStats(leagueKey);
+        allLeaguesStats.leagues[leagueKey] = stats;
+        console.log(`✅ Processed ${Object.keys(stats).length} teams for ${LEAGUE_CONFIGS[leagueKey].name}`);
+    }
+
+    const outputPath = path.join(__dirname, '..', 'public', 'teamStats.json');
+    const publicDir = path.dirname(outputPath);
+    if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
+
+    fs.writeFileSync(outputPath, JSON.stringify(allLeaguesStats, null, 2));
+
+    console.log('\n✅ Successfully updated teamStats.json');
+    console.log(`📁 Location: ${outputPath}`);
+    console.log(`📅 Last updated: ${allLeaguesStats.lastUpdated}\n`);
 }
 
 scrapeAllStats();

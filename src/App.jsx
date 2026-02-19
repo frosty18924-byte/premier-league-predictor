@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle, Calendar, ChevronRight, Calculator, Database } from 'lucide-react';
+import { Trophy, TrendingUp, Target, Flag, AlertCircle, Users, Loader2, RefreshCw, PlayCircle, Calendar, ChevronRight, Calculator, Database, BarChart3, ChevronDown, ChevronUp } from 'lucide-react';
 import statsService from './services/statsService';
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [dataSource, setDataSource] = useState('loading');
   const [lastUpdated, setLastUpdated] = useState(null);
   const [comparingMatchId, setComparingMatchId] = useState(null);
+  const [expandedStatsMatchId, setExpandedStatsMatchId] = useState(null);
 
   const [activeLeague, setActiveLeague] = useState('premier-league');
 
@@ -243,6 +244,57 @@ const App = () => {
     return "text-orange-600 bg-orange-50";
   };
 
+  const TeamBreakdown = ({ teamName, leagueId, isHome }) => {
+    const stats = statsService.getRawTeamStats(teamName, leagueId);
+    if (!stats) return null;
+
+    const currentStats = isHome ? stats.home : stats.away;
+
+    return (
+      <div className="bg-black/20 rounded-lg p-4 border border-white/5 space-y-4">
+        <div className="flex items-center justify-between border-b border-white/10 pb-2">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-purple-400" />
+            <h4 className="text-sm font-bold text-white">Full {isHome ? 'Home' : 'Away'} Metrics</h4>
+          </div>
+          <span className="text-[10px] text-white/40 uppercase font-black">25/26 Season Avg</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <div className="text-[10px] text-purple-200 uppercase tracking-wider">Attacking</div>
+            <div className="flex justify-between items-end">
+              <span className="text-xs text-white/60">Shots / Game</span>
+              <span className="text-lg font-black text-white">{currentStats.shotsPerGame}</span>
+            </div>
+            <div className="flex justify-between items-end">
+              <span className="text-xs text-white/60">On Target</span>
+              <span className="text-lg font-black text-green-400">{currentStats.shotsOnTargetPerGame}</span>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <div className="text-[10px] text-purple-200 uppercase tracking-wider">Discipline & Set Pieces</div>
+            <div className="flex justify-between items-end">
+              <span className="text-xs text-white/60">Corners / Game</span>
+              <span className="text-lg font-black text-blue-400">{currentStats.cornersPerGame}</span>
+            </div>
+            <div className="flex justify-between items-end">
+              <span className="text-xs text-white/60">Fouls / Game</span>
+              <span className="text-lg font-black text-orange-400">{currentStats.foulsPerGame}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-2">
+          <div className="text-[10px] text-white/30 italic">
+            *Stats reflect performance specifically in {isHome ? 'Home' : 'Away'} matches this season.
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center p-6">
       <div className="text-white text-center">
@@ -387,32 +439,95 @@ const App = () => {
                 </div>
 
                 {/* 3. Detailed Stats (Season Averages) */}
-                <div className="bg-white/5 rounded-lg p-3 border border-white/10 md:col-span-2 lg:col-span-1">
-                  <div className="grid grid-cols-3 gap-2 text-center text-xs mb-2 text-purple-200 font-bold">
-                    <div>Est. Stats</div>
-                    <div>Home</div>
-                    <div>Away</div>
+                <div className="bg-white/5 rounded-lg p-3 border border-white/10 md:col-span-2 lg:col-span-1 flex flex-col justify-between">
+                  <div>
+                    <div className="grid grid-cols-3 gap-2 text-center text-xs mb-2 text-purple-200 font-bold">
+                      <div>Est. Stats</div>
+                      <div>Home</div>
+                      <div>Away</div>
+                    </div>
+                    {/* Corners */}
+                    <div className="grid grid-cols-3 gap-2 text-center text-sm border-b border-white/5 pb-1 mb-1">
+                      <div className="text-left text-white/70">Corners</div>
+                      <div className="text-white font-mono">{match.predictions.stats.corners.home}</div>
+                      <div className="text-white font-mono">{match.predictions.stats.corners.away}</div>
+                    </div>
+                    {/* Shots */}
+                    <div className="grid grid-cols-3 gap-2 text-center text-sm border-b border-white/5 pb-1 mb-1">
+                      <div className="text-left text-white/70">Shots</div>
+                      <div className="text-white font-mono">{match.predictions.stats.shots.home}</div>
+                      <div className="text-white font-mono">{match.predictions.stats.shots.away}</div>
+                    </div>
+                    {/* SoT */}
+                    <div className="grid grid-cols-3 gap-2 text-center text-sm">
+                      <div className="text-left text-white/70">On Target</div>
+                      <div className="text-white font-mono">{match.predictions.stats.sot.home}</div>
+                      <div className="text-white font-mono">{match.predictions.stats.sot.away}</div>
+                    </div>
                   </div>
-                  {/* Corners */}
-                  <div className="grid grid-cols-3 gap-2 text-center text-sm border-b border-white/5 pb-1 mb-1">
-                    <div className="text-left text-white/70">Corners</div>
-                    <div className="text-white font-mono">{match.predictions.stats.corners.home}</div>
-                    <div className="text-white font-mono">{match.predictions.stats.corners.away}</div>
-                  </div>
-                  {/* Shots */}
-                  <div className="grid grid-cols-3 gap-2 text-center text-sm border-b border-white/5 pb-1 mb-1">
-                    <div className="text-left text-white/70">Shots</div>
-                    <div className="text-white font-mono">{match.predictions.stats.shots.home}</div>
-                    <div className="text-white font-mono">{match.predictions.stats.shots.away}</div>
-                  </div>
-                  {/* SoT */}
-                  <div className="grid grid-cols-3 gap-2 text-center text-sm">
-                    <div className="text-left text-white/70">On Target</div>
-                    <div className="text-white font-mono">{match.predictions.stats.sot.home}</div>
-                    <div className="text-white font-mono">{match.predictions.stats.sot.away}</div>
-                  </div>
+
+                  <button
+                    onClick={() => setExpandedStatsMatchId(expandedStatsMatchId === match.id ? null : match.id)}
+                    className="w-full mt-4 flex items-center justify-center gap-2 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30 rounded text-[10px] text-purple-200 uppercase tracking-widest font-black transition-all"
+                  >
+                    <BarChart3 className="w-3 h-3" />
+                    {expandedStatsMatchId === match.id ? "Hide Detailed Breakdown" : "Full Team Breakdown"}
+                    {expandedStatsMatchId === match.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                  </button>
                 </div>
               </div>
+
+              {/* Team Breakdown Expanded Section */}
+              {expandedStatsMatchId === match.id && (
+                <div className="bg-black/30 border-t border-purple-500/30 p-6 animate-in slide-in-from-top duration-300">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h3 className="text-white font-black text-xl flex items-center gap-3">
+                        <span className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs">H</span>
+                        {match.homeTeam}
+                      </h3>
+                      <TeamBreakdown teamName={match.homeTeam} leagueId={activeLeague} isHome={true} />
+                    </div>
+
+                    <div className="space-y-4 text-right md:text-left">
+                      <h3 className="text-white font-black text-xl flex items-center justify-end md:justify-start gap-3 flex-row-reverse md:flex-row">
+                        <span className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs">A</span>
+                        {match.awayTeam}
+                      </h3>
+                      <TeamBreakdown teamName={match.awayTeam} leagueId={activeLeague} isHome={false} />
+                    </div>
+                  </div>
+
+                  <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/5 pt-6">
+                    <div className="bg-white/5 p-4 rounded-lg flex flex-col items-center text-center">
+                      <PlayCircle className="w-6 h-6 text-yellow-400 mb-2" />
+                      <div className="text-[10px] text-white/40 uppercase font-black">Tactical Note</div>
+                      <p className="text-xs text-white/70 mt-1">
+                        {match.predictions.result.home > match.predictions.result.away ?
+                          `${match.homeTeam}'s home dominance (${statsService.getRawTeamStats(match.homeTeam, activeLeague)?.home?.shotsPerGame} shots avg) is the key driver here.` :
+                          `${match.awayTeam}'s away resilience is expected to test the home side's resolve.`
+                        }
+                      </p>
+                    </div>
+
+                    <div className="bg-white/5 p-4 rounded-lg flex flex-col items-center text-center">
+                      <Target className="w-6 h-6 text-green-400 mb-2" />
+                      <div className="text-[10px] text-white/40 uppercase font-black">Predictor Confidence</div>
+                      <p className="text-xs text-white/70 mt-1">
+                        Analysis based on {statsService.getDataSource() === 'real' ? 'Verified Season Data' : 'Simulated Trends'} and Live Market Liquidity.
+                      </p>
+                    </div>
+
+                    <div className="bg-white/5 p-4 rounded-lg flex flex-col items-center text-center">
+                      <TrendingUp className="w-6 h-6 text-blue-400 mb-2" />
+                      <div className="text-[10px] text-white/40 uppercase font-black">Market Sentiment</div>
+                      <p className="text-xs text-white/70 mt-1">
+                        Current odds ({match.odds}) imply a {Math.round(100 / match.odds)}% probability, closely aligning with our {match.predictions.result.confidence}% assessment.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Odds Comparison Table Expanded Section */}
               {comparingMatchId === match.id && (
