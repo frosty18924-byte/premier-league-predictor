@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-24T01:45:05.723Z",
+  "lastUpdated": "2026-02-25T01:48:17.485Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -236,10 +236,10 @@
           "foulsPerGame": 10.4
         },
         "away": {
-          "shotsPerGame": 14.7,
-          "shotsOnTargetPerGame": 4.9,
-          "cornersPerGame": 4.4,
-          "foulsPerGame": 9.8
+          "shotsPerGame": 14.4,
+          "shotsOnTargetPerGame": 4.8,
+          "cornersPerGame": 4.1,
+          "foulsPerGame": 9.6
         }
       },
       "Arsenal": {
@@ -272,10 +272,10 @@
       },
       "Everton": {
         "home": {
-          "shotsPerGame": 12.5,
-          "shotsOnTargetPerGame": 3.8,
-          "cornersPerGame": 5.1,
-          "foulsPerGame": 10.3
+          "shotsPerGame": 12.4,
+          "shotsOnTargetPerGame": 3.9,
+          "cornersPerGame": 5.4,
+          "foulsPerGame": 10.4
         },
         "away": {
           "shotsPerGame": 9.5,
@@ -1166,10 +1166,10 @@
           "foulsPerGame": 12.1
         },
         "away": {
-          "shotsPerGame": 12,
-          "shotsOnTargetPerGame": 4.6,
-          "cornersPerGame": 4.4,
-          "foulsPerGame": 13.3
+          "shotsPerGame": 11.7,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 4.6,
+          "foulsPerGame": 13.6
         }
       },
       "Oldham": {
@@ -1244,10 +1244,10 @@
       },
       "Walsall": {
         "home": {
-          "shotsPerGame": 11.4,
+          "shotsPerGame": 11.1,
           "shotsOnTargetPerGame": 4.1,
-          "cornersPerGame": 4.6,
-          "foulsPerGame": 11.9
+          "cornersPerGame": 4.4,
+          "foulsPerGame": 11.6
         },
         "away": {
           "shotsPerGame": 9.7,
