@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-06T01:46:32.740Z",
+  "lastUpdated": "2026-03-07T01:27:53.617Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -121,7 +121,7 @@
           "shotsPerGame": 11.8,
           "shotsOnTargetPerGame": 3.9,
           "cornersPerGame": 5.1,
-          "foulsPerGame": 12.3
+          "foulsPerGame": 12.4
         },
         "away": {
           "shotsPerGame": 10.1,
@@ -194,10 +194,10 @@
           "foulsPerGame": 10.1
         },
         "away": {
-          "shotsPerGame": 9.8,
-          "shotsOnTargetPerGame": 3.4,
-          "cornersPerGame": 4.1,
-          "foulsPerGame": 10.9
+          "shotsPerGame": 9.7,
+          "shotsOnTargetPerGame": 3.5,
+          "cornersPerGame": 4,
+          "foulsPerGame": 11.1
         }
       },
       "Nott'm Forest": {
