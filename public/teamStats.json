@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-17T01:46:05.146Z",
+  "lastUpdated": "2026-03-18T01:50:30.389Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -152,10 +152,10 @@
           "foulsPerGame": 12.4
         },
         "away": {
-          "shotsPerGame": 8.7,
-          "shotsOnTargetPerGame": 2.9,
-          "cornersPerGame": 3.5,
-          "foulsPerGame": 14.3
+          "shotsPerGame": 9,
+          "shotsOnTargetPerGame": 3,
+          "cornersPerGame": 3.6,
+          "foulsPerGame": 14
         }
       },
       "Man City": {
@@ -216,10 +216,10 @@
       },
       "Brentford": {
         "home": {
-          "shotsPerGame": 11.4,
+          "shotsPerGame": 11.3,
           "shotsOnTargetPerGame": 4.1,
-          "cornersPerGame": 4.3,
-          "foulsPerGame": 10.1
+          "cornersPerGame": 4.1,
+          "foulsPerGame": 10.3
         },
         "away": {
           "shotsPerGame": 9.6,
@@ -470,10 +470,10 @@
       },
       "Portsmouth": {
         "home": {
-          "shotsPerGame": 15.7,
-          "shotsOnTargetPerGame": 4.4,
-          "cornersPerGame": 6.4,
-          "foulsPerGame": 9.2
+          "shotsPerGame": 16.3,
+          "shotsOnTargetPerGame": 4.7,
+          "cornersPerGame": 6.7,
+          "foulsPerGame": 9.4
         },
         "away": {
           "shotsPerGame": 9.3,
@@ -534,7 +534,7 @@
         "away": {
           "shotsPerGame": 10.1,
           "shotsOnTargetPerGame": 3.2,
-          "cornersPerGame": 3.7,
+          "cornersPerGame": 3.6,
           "foulsPerGame": 12.7
         }
       },
