@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-25T01:49:32.745Z",
+  "lastUpdated": "2026-03-26T01:55:35.479Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -766,10 +766,10 @@
       },
       "Doncaster": {
         "home": {
-          "shotsPerGame": 14,
-          "shotsOnTargetPerGame": 3.9,
+          "shotsPerGame": 13.9,
+          "shotsOnTargetPerGame": 3.8,
           "cornersPerGame": 4.9,
-          "foulsPerGame": 10.9
+          "foulsPerGame": 11.2
         },
         "away": {
           "shotsPerGame": 11.1,
@@ -898,9 +898,9 @@
           "foulsPerGame": 10.8
         },
         "away": {
-          "shotsPerGame": 9.7,
-          "shotsOnTargetPerGame": 2.5,
-          "cornersPerGame": 4.2,
+          "shotsPerGame": 9.4,
+          "shotsOnTargetPerGame": 2.6,
+          "cornersPerGame": 4,
           "foulsPerGame": 11.1
         }
       },
@@ -1174,10 +1174,10 @@
       },
       "Oldham": {
         "home": {
-          "shotsPerGame": 13.2,
-          "shotsOnTargetPerGame": 4.5,
-          "cornersPerGame": 5.4,
-          "foulsPerGame": 12.3
+          "shotsPerGame": 13.1,
+          "shotsOnTargetPerGame": 4.7,
+          "cornersPerGame": 5.5,
+          "foulsPerGame": 12.2
         },
         "away": {
           "shotsPerGame": 13,
@@ -1292,10 +1292,10 @@
           "foulsPerGame": 10.2
         },
         "away": {
-          "shotsPerGame": 10.4,
-          "shotsOnTargetPerGame": 3.8,
-          "cornersPerGame": 4.9,
-          "foulsPerGame": 12.6
+          "shotsPerGame": 10.1,
+          "shotsOnTargetPerGame": 3.7,
+          "cornersPerGame": 4.7,
+          "foulsPerGame": 12.4
         }
       }
     }
