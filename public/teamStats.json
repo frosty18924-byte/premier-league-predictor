@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-09T01:50:59.525Z",
+  "lastUpdated": "2026-04-10T02:03:36.817Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -378,18 +378,18 @@
           "foulsPerGame": 9.5
         },
         "away": {
-          "shotsPerGame": 13,
-          "shotsOnTargetPerGame": 5.1,
-          "cornersPerGame": 5,
-          "foulsPerGame": 12.1
+          "shotsPerGame": 13.1,
+          "shotsOnTargetPerGame": 5.3,
+          "cornersPerGame": 4.9,
+          "foulsPerGame": 12
         }
       },
       "Wrexham": {
         "home": {
-          "shotsPerGame": 14.2,
-          "shotsOnTargetPerGame": 4.8,
-          "cornersPerGame": 5.4,
-          "foulsPerGame": 8.7
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 4.7,
+          "cornersPerGame": 5.3,
+          "foulsPerGame": 8.8
         },
         "away": {
           "shotsPerGame": 8.4,
@@ -884,18 +884,18 @@
           "foulsPerGame": 12.8
         },
         "away": {
-          "shotsPerGame": 8.8,
-          "shotsOnTargetPerGame": 2.6,
-          "cornersPerGame": 4.1,
+          "shotsPerGame": 8.9,
+          "shotsOnTargetPerGame": 2.7,
+          "cornersPerGame": 4.2,
           "foulsPerGame": 12.1
         }
       },
       "Port Vale": {
         "home": {
-          "shotsPerGame": 12.8,
+          "shotsPerGame": 12.6,
           "shotsOnTargetPerGame": 3.7,
           "cornersPerGame": 5.8,
-          "foulsPerGame": 10.8
+          "foulsPerGame": 11.1
         },
         "away": {
           "shotsPerGame": 9.5,
@@ -1222,18 +1222,18 @@
           "foulsPerGame": 10.7
         },
         "away": {
-          "shotsPerGame": 10,
+          "shotsPerGame": 9.8,
           "shotsOnTargetPerGame": 2.8,
-          "cornersPerGame": 3.1,
-          "foulsPerGame": 12
+          "cornersPerGame": 3,
+          "foulsPerGame": 11.9
         }
       },
       "Bromley": {
         "home": {
-          "shotsPerGame": 14.2,
-          "shotsOnTargetPerGame": 5.1,
+          "shotsPerGame": 14,
+          "shotsOnTargetPerGame": 5,
           "cornersPerGame": 5.7,
-          "foulsPerGame": 9.7
+          "foulsPerGame": 9.6
         },
         "away": {
           "shotsPerGame": 11.6,
