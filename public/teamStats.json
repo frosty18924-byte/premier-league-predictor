@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-21T02:06:17.490Z",
+  "lastUpdated": "2026-04-22T02:04:20.614Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -111,7 +111,7 @@
         },
         "away": {
           "shotsPerGame": 9.8,
-          "shotsOnTargetPerGame": 3.3,
+          "shotsOnTargetPerGame": 3.4,
           "cornersPerGame": 4.6,
           "foulsPerGame": 10.9
         }
@@ -188,10 +188,10 @@
       },
       "Crystal Palace": {
         "home": {
-          "shotsPerGame": 13.4,
-          "shotsOnTargetPerGame": 3.9,
+          "shotsPerGame": 13.2,
+          "shotsOnTargetPerGame": 3.7,
           "cornersPerGame": 4.4,
-          "foulsPerGame": 10.7
+          "foulsPerGame": 10.8
         },
         "away": {
           "shotsPerGame": 9.7,
