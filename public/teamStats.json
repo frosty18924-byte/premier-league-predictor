@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-28T02:30:32.488Z",
+  "lastUpdated": "2026-04-29T02:30:49.243Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -222,18 +222,18 @@
           "foulsPerGame": 9.9
         },
         "away": {
-          "shotsPerGame": 9.4,
+          "shotsPerGame": 9.5,
           "shotsOnTargetPerGame": 3.8,
-          "cornersPerGame": 5.4,
-          "foulsPerGame": 10.9
+          "cornersPerGame": 5.6,
+          "foulsPerGame": 10.8
         }
       },
       "Man United": {
         "home": {
-          "shotsPerGame": 17.6,
-          "shotsOnTargetPerGame": 6.9,
-          "cornersPerGame": 5.2,
-          "foulsPerGame": 10.6
+          "shotsPerGame": 17.2,
+          "shotsOnTargetPerGame": 6.8,
+          "cornersPerGame": 5.3,
+          "foulsPerGame": 10.4
         },
         "away": {
           "shotsPerGame": 13.8,
@@ -308,10 +308,10 @@
           "foulsPerGame": 10.5
         },
         "away": {
-          "shotsPerGame": 13.4,
-          "shotsOnTargetPerGame": 4.3,
-          "cornersPerGame": 5,
-          "foulsPerGame": 11.7
+          "shotsPerGame": 13.7,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 5.2,
+          "foulsPerGame": 12
         }
       },
       "Charlton": {
@@ -372,10 +372,10 @@
       },
       "Southampton": {
         "home": {
-          "shotsPerGame": 15.5,
-          "shotsOnTargetPerGame": 5.4,
-          "cornersPerGame": 6.4,
-          "foulsPerGame": 9.5
+          "shotsPerGame": 15.6,
+          "shotsOnTargetPerGame": 5.3,
+          "cornersPerGame": 6.3,
+          "foulsPerGame": 9.6
         },
         "away": {
           "shotsPerGame": 13.2,
@@ -668,10 +668,10 @@
       },
       "Peterboro": {
         "home": {
-          "shotsPerGame": 13.9,
-          "shotsOnTargetPerGame": 4.6,
+          "shotsPerGame": 13.7,
+          "shotsOnTargetPerGame": 4.5,
           "cornersPerGame": 5,
-          "foulsPerGame": 9.6
+          "foulsPerGame": 9.4
         },
         "away": {
           "shotsPerGame": 9.9,
@@ -758,9 +758,9 @@
           "foulsPerGame": 10.7
         },
         "away": {
-          "shotsPerGame": 9.4,
+          "shotsPerGame": 9.6,
           "shotsOnTargetPerGame": 2.6,
-          "cornersPerGame": 4,
+          "cornersPerGame": 4.1,
           "foulsPerGame": 12
         }
       },
@@ -872,8 +872,8 @@
         "away": {
           "shotsPerGame": 10.8,
           "shotsOnTargetPerGame": 3.8,
-          "cornersPerGame": 4.7,
-          "foulsPerGame": 11.1
+          "cornersPerGame": 4.6,
+          "foulsPerGame": 10.8
         }
       },
       "Rotherham": {
@@ -899,9 +899,9 @@
         },
         "away": {
           "shotsPerGame": 9.5,
-          "shotsOnTargetPerGame": 2.7,
-          "cornersPerGame": 4.1,
-          "foulsPerGame": 10.8
+          "shotsOnTargetPerGame": 2.8,
+          "cornersPerGame": 4,
+          "foulsPerGame": 10.7
         }
       },
       "Wigan": {
@@ -920,10 +920,10 @@
       },
       "Northampton": {
         "home": {
-          "shotsPerGame": 9.5,
-          "shotsOnTargetPerGame": 3.2,
+          "shotsPerGame": 9.7,
+          "shotsOnTargetPerGame": 3.1,
           "cornersPerGame": 5.3,
-          "foulsPerGame": 10.2
+          "foulsPerGame": 10.4
         },
         "away": {
           "shotsPerGame": 8.9,
@@ -934,10 +934,10 @@
       },
       "Stockport": {
         "home": {
-          "shotsPerGame": 14.9,
-          "shotsOnTargetPerGame": 5.1,
+          "shotsPerGame": 14.8,
+          "shotsOnTargetPerGame": 5,
           "cornersPerGame": 5.5,
-          "foulsPerGame": 10.4
+          "foulsPerGame": 10.3
         },
         "away": {
           "shotsPerGame": 11.6,
