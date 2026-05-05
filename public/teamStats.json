@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-04T02:27:21.120Z",
+  "lastUpdated": "2026-05-05T02:22:23.595Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -166,17 +166,17 @@
           "foulsPerGame": 10.1
         },
         "away": {
-          "shotsPerGame": 14.6,
+          "shotsPerGame": 14.9,
           "shotsOnTargetPerGame": 4.7,
-          "cornersPerGame": 5.6,
-          "foulsPerGame": 9.9
+          "cornersPerGame": 5.8,
+          "foulsPerGame": 9.6
         }
       },
       "Chelsea": {
         "home": {
-          "shotsPerGame": 15.2,
+          "shotsPerGame": 15.5,
           "shotsOnTargetPerGame": 4.2,
-          "cornersPerGame": 6.9,
+          "cornersPerGame": 7.1,
           "foulsPerGame": 10.8
         },
         "away": {
@@ -208,10 +208,10 @@
           "foulsPerGame": 9.9
         },
         "away": {
-          "shotsPerGame": 10.2,
+          "shotsPerGame": 10,
           "shotsOnTargetPerGame": 4.2,
-          "cornersPerGame": 4.6,
-          "foulsPerGame": 11.5
+          "cornersPerGame": 4.4,
+          "foulsPerGame": 11.4
         }
       },
       "Brentford": {
@@ -272,10 +272,10 @@
       },
       "Everton": {
         "home": {
-          "shotsPerGame": 12.2,
-          "shotsOnTargetPerGame": 4.2,
+          "shotsPerGame": 12.3,
+          "shotsOnTargetPerGame": 4.3,
           "cornersPerGame": 5.1,
-          "foulsPerGame": 10
+          "foulsPerGame": 10.3
         },
         "away": {
           "shotsPerGame": 9.8,
