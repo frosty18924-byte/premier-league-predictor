@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-14T02:40:50.273Z",
+  "lastUpdated": "2026-05-15T02:41:34.780Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -160,9 +160,9 @@
       },
       "Man City": {
         "home": {
-          "shotsPerGame": 16.5,
-          "shotsOnTargetPerGame": 6.4,
-          "cornersPerGame": 6.9,
+          "shotsPerGame": 16.4,
+          "shotsOnTargetPerGame": 6.3,
+          "cornersPerGame": 7.1,
           "foulsPerGame": 9.9
         },
         "away": {
@@ -194,10 +194,10 @@
           "foulsPerGame": 10.5
         },
         "away": {
-          "shotsPerGame": 9.8,
-          "shotsOnTargetPerGame": 3.5,
+          "shotsPerGame": 9.6,
+          "shotsOnTargetPerGame": 3.4,
           "cornersPerGame": 4.1,
-          "foulsPerGame": 11.1
+          "foulsPerGame": 10.8
         }
       },
       "Nott'm Forest": {
