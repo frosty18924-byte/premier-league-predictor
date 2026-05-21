@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-20T02:46:42.174Z",
+  "lastUpdated": "2026-05-21T02:49:24.511Z",
   "season": "2025-26",
   "dataSource": "Aggregated match-by-match data from football-data.co.uk",
   "leagues": {
@@ -20,10 +20,10 @@
       },
       "Bournemouth": {
         "home": {
-          "shotsPerGame": 14.7,
-          "shotsOnTargetPerGame": 4.7,
-          "cornersPerGame": 5.9,
-          "foulsPerGame": 11.3
+          "shotsPerGame": 14.5,
+          "shotsOnTargetPerGame": 4.5,
+          "cornersPerGame": 6,
+          "foulsPerGame": 11.5
         },
         "away": {
           "shotsPerGame": 12.9,
@@ -125,9 +125,9 @@
         },
         "away": {
           "shotsPerGame": 10.3,
-          "shotsOnTargetPerGame": 3.9,
+          "shotsOnTargetPerGame": 3.8,
           "cornersPerGame": 4.8,
-          "foulsPerGame": 11.4
+          "foulsPerGame": 11.7
         }
       },
       "Burnley": {
@@ -169,14 +169,14 @@
           "shotsPerGame": 14.9,
           "shotsOnTargetPerGame": 4.7,
           "cornersPerGame": 5.8,
-          "foulsPerGame": 9.6
+          "foulsPerGame": 9.5
         }
       },
       "Chelsea": {
         "home": {
-          "shotsPerGame": 15.5,
+          "shotsPerGame": 15.2,
           "shotsOnTargetPerGame": 4.2,
-          "cornersPerGame": 7.1,
+          "cornersPerGame": 6.8,
           "foulsPerGame": 10.8
         },
         "away": {
